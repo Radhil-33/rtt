@@ -89,9 +89,9 @@ export default function Footer() {
           <div>
             <h4 style={{ fontFamily: 'Playfair Display, serif', fontSize: 18, color: 'white', marginBottom: 20 }}>Contact Us</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <a href="tel:+919876543210" style={{ display: 'flex', alignItems: 'flex-start', gap: 12, color: 'rgba(253,248,240,0.8)', textDecoration: 'none', fontSize: 14 }}>
+              <a href="tel:+919790699932" style={{ display: 'flex', alignItems: 'flex-start', gap: 12, color: 'rgba(253,248,240,0.8)', textDecoration: 'none', fontSize: 14 }}>
                 <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(232,101,26,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Phone size={15} style={{ color: 'var(--saffron)' }} /></div>
-                <div><div style={{ color: 'rgba(253,248,240,0.5)', fontSize: 11, marginBottom: 2 }}>CALL / WHATSAPP</div>+91 98765 43210</div>
+                <div><div style={{ color: 'rgba(253,248,240,0.5)', fontSize: 11, marginBottom: 2 }}>CALL / WHATSAPP</div>+91 9790699932</div>
               </a>
               <a href="mailto:info@rashmitours.in" style={{ display: 'flex', alignItems: 'flex-start', gap: 12, color: 'rgba(253,248,240,0.8)', textDecoration: 'none', fontSize: 14 }}>
                 <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(232,101,26,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Mail size={15} style={{ color: 'var(--saffron)' }} /></div>

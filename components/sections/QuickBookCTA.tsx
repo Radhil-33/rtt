@@ -26,8 +26,8 @@ export default function QuickBookCTA() {
             </p>
 
             <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="tel:+919876543210" className="btn-primary" style={{ fontSize: 16, padding: '16px 36px' }}>
-                <Phone size={18} /> Call Now: +91 98765 43210
+              <a href="tel:+919790699932" className="btn-primary" style={{ fontSize: 16, padding: '16px 36px' }}>
+                <Phone size={18} /> Call Now: +91 9790699932
               </a>
               <Link href="/booking" className="btn-secondary" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.4)', fontSize: 16, padding: '16px 36px' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'; }}
@@ -37,7 +37,7 @@ export default function QuickBookCTA() {
             </div>
 
             <div style={{ marginTop: 32 }}>
-              <a href="https://wa.me/919876543210" target="_blank" rel="noopener"
+              <a href="https://wa.me/919790699932" target="_blank" rel="noopener"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: '#4ADE80', textDecoration: 'none', fontSize: 15, fontWeight: 500, transition: 'color 0.2s' }}
                 onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#86EFAC'}
                 onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = '#4ADE80'}>

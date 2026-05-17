@@ -17,6 +17,8 @@
     "react-dom": "19.2.4",
     "react-hook-form": "^7.76.0",
     "react-hot-toast": "^2.6.0",
+    "resend": "^6.12.3",
+    "twilio": "^6.0.2",
     "zustand": "^5.0.13"
   },
   "devDependencies": {

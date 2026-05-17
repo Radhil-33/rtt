@@ -28,13 +28,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
+  rel="stylesheet"
+/>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "TravelAgency",
           name: "Rashmi Tours and Travels",
           description: "Premium cab service and tour packages from Madurai across South India.",
           url: "https://rashmitours.in",
-          telephone: "+91-9876543210",
+          telephone: "+91-9790699932",
           address: { "@type": "PostalAddress", addressLocality: "Madurai", addressRegion: "Tamil Nadu", addressCountry: "IN" },
           openingHours: "Mo-Su 00:00-24:00",
           aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "520" },

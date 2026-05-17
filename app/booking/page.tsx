@@ -108,7 +108,7 @@ function BookingForm() {
             </div>
             <div>
               <label className="form-label">Phone Number *</label>
-              <input className="form-input" value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+91 98765 43210" type="tel" required />
+              <input className="form-input" value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+91 9790699932" type="tel" required />
             </div>
             <div>
               <label className="form-label">Email Address</label>
