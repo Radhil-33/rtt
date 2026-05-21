@@ -12,19 +12,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   useEffect(() => { setMounted(true); }, []);
   useEffect(() => {
-    if (mounted && !isAdminLoggedIn && pathname !== '/admin') {
-      router.push('/admin');
-    }
+    if (mounted && !isAdminLoggedIn && pathname !== '/admin') router.push('/admin');
   }, [mounted, isAdminLoggedIn, pathname, router]);
 
   if (!mounted) return null;
-
   if (!isAdminLoggedIn) return <>{children}</>;
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#0F0A05' }}>
       <AdminSidebar />
-      <main style={{ flex: 1, marginLeft: 260, overflowX: 'hidden' }}>
+      <main className="admin-main" style={{ flex: 1, overflowX: 'hidden', minWidth: 0 }}>
         {children}
       </main>
     </div>

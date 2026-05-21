@@ -61,7 +61,7 @@ export const defaultCarousel: CarouselSlide[] = [
   {
     id: '1',
     image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80',
-    title: 'Explore the Beauty of South India',
+    title: 'Explore South India from Trichy',
     subtitle: 'Comfortable cabs, unforgettable journeys — your adventure begins here',
     ctaText: 'Book Now',
     ctaLink: '/booking',
@@ -70,7 +70,7 @@ export const defaultCarousel: CarouselSlide[] = [
     id: '2',
     image: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1600&q=80',
     title: 'Sacred Pilgrimages Made Easy',
-    subtitle: 'Visit temples and holy sites across Tamil Nadu with trusted drivers',
+    subtitle: 'Visit Rameswaram, Madurai, Kashi & more with our verified drivers from Trichy',
     ctaText: 'View Packages',
     ctaLink: '/packages',
   },
@@ -87,8 +87,8 @@ export const defaultCarousel: CarouselSlide[] = [
 export const defaultPackages: Package[] = [
   {
     id: 'p1',
-    title: 'Madurai to Rameswaram',
-    description: 'A divine pilgrimage journey from the Temple City to the island of Rameswaram, visiting the sacred Ramanathaswamy Temple.',
+    title: 'Trichy to Rameswaram',
+    description: 'A divine pilgrimage journey from Trichy to the island of Rameswaram, visiting the sacred Ramanathaswamy Temple.',
     image: 'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=800&q=80',
     duration: '1 Day',
     price: 2800,
@@ -96,18 +96,18 @@ export const defaultPackages: Package[] = [
     highlights: ['AC Cab', 'Experienced Driver', 'Temple Stops', 'Return Trip'],
     badge: 'Most Booked',
     popular: true,
-    destinations: ['Madurai', 'Rameswaram'],
+    destinations: ['Trichy', 'Rameswaram'],
   },
   {
     id: 'p2',
-    title: 'Madurai to Kodaikanal',
+    title: 'Trichy to Kodaikanal',
     description: 'Escape to the misty hills of Kodaikanal, the Princess of Hill Stations, with panoramic valley views and serene lakes.',
     image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80',
     duration: '1 Day',
     price: 3200,
     priceUnit: 'per cab',
     highlights: ['Hill Route', 'AC Cab', 'Scenic Stops', 'Flexible Timing'],
-    destinations: ['Madurai', 'Kodaikanal'],
+    destinations: ['Trichy', 'Kodaikanal'],
   },
   {
     id: 'p3',
@@ -119,7 +119,7 @@ export const defaultPackages: Package[] = [
     priceUnit: 'per cab',
     highlights: ['2-Day Trip', 'Hotel Assist', 'Sightseeing', 'Tea Estate Visit'],
     badge: 'Best Value',
-    destinations: ['Madurai', 'Ooty', 'Coonoor'],
+    destinations: ['Trichy', 'Ooty', 'Coonoor'],
   },
   {
     id: 'p4',
@@ -130,7 +130,7 @@ export const defaultPackages: Package[] = [
     price: 7500,
     priceUnit: 'per cab',
     highlights: ['Kerala Crossing', 'Tea Plantations', 'Waterfall Stops', 'AC Cab'],
-    destinations: ['Madurai', 'Munnar'],
+    destinations: ['Trichy', 'Munnar'],
   },
   {
     id: 'p5',
@@ -141,18 +141,18 @@ export const defaultPackages: Package[] = [
     price: 3800,
     priceUnit: 'per cab',
     highlights: ['Sunrise View', 'Vivekananda Rock', 'Beach Stops', 'Return Trip'],
-    destinations: ['Madurai', 'Kanyakumari'],
+    destinations: ['Trichy', 'Kanyakumari'],
   },
   {
     id: 'p6',
-    title: 'Chennai City Transfer',
-    description: 'Comfortable long-distance cab from Madurai to Chennai, with rest stops at your convenience.',
+    title: 'Trichy to Chennai Transfer',
+    description: 'Comfortable long-distance cab from Trichy to Chennai, with rest stops at your convenience.',
     image: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80',
     duration: 'One Way',
     price: 5200,
     priceUnit: 'per cab',
     highlights: ['AC Sedan/SUV', 'Rest Stops', 'Night Travel OK', 'GPS Tracked'],
-    destinations: ['Madurai', 'Chennai'],
+    destinations: ['Trichy', 'Chennai'],
   },
 ];
 
@@ -168,7 +168,7 @@ export const defaultTextBlocks: TextBlock[] = [
     id: 'about-main',
     section: 'about',
     heading: 'About Rashmi Tours',
-    body: 'Based in Madurai — the heart of Tamil Nadu — Rashmi Tours and Travels offers premium cab services for pilgrimages, hill station tours, inter-city transfers, and custom travel packages. Our fleet of well-maintained vehicles and trained, courteous drivers ensure a safe and pleasant journey every time.',
+    body: 'Based in Trichy — the heart of Tamil Nadu — Rashmi Tours and Travels offers premium cab services for pilgrimages, hill station tours, inter-city transfers, and custom travel packages. Our fleet of well-maintained vehicles and trained, courteous drivers ensure a safe and pleasant journey every time.',
     align: 'left',
   },
   {
@@ -237,16 +237,16 @@ export const defaultTestimonials: Testimonial[] = [
 ];
 
 export const defaultFareRules: FareRule[] = [
-  { from: 'Madurai', to: 'Rameswaram', basePrice: 800, pricePerKm: 14, distanceKm: 165 },
-  { from: 'Madurai', to: 'Kodaikanal', basePrice: 700, pricePerKm: 15, distanceKm: 120 },
-  { from: 'Madurai', to: 'Ooty', basePrice: 900, pricePerKm: 14, distanceKm: 210 },
-  { from: 'Madurai', to: 'Kanyakumari', basePrice: 900, pricePerKm: 14, distanceKm: 245 },
-  { from: 'Madurai', to: 'Chennai', basePrice: 1200, pricePerKm: 13, distanceKm: 460 },
-  { from: 'Madurai', to: 'Munnar', basePrice: 1000, pricePerKm: 15, distanceKm: 190 },
-  { from: 'Madurai', to: 'Tirunelveli', basePrice: 600, pricePerKm: 13, distanceKm: 160 },
-  { from: 'Madurai', to: 'Trichy', basePrice: 600, pricePerKm: 13, distanceKm: 135 },
-  { from: 'Madurai', to: 'Coimbatore', basePrice: 700, pricePerKm: 13, distanceKm: 210 },
-  { from: 'Madurai', to: 'Bangalore', basePrice: 1500, pricePerKm: 13, distanceKm: 470 },
+  { from: 'Trichy', to: 'Rameswaram', basePrice: 800, pricePerKm: 14, distanceKm: 165 },
+  { from: 'Trichy', to: 'Kodaikanal', basePrice: 700, pricePerKm: 15, distanceKm: 120 },
+  { from: 'Trichy', to: 'Ooty', basePrice: 900, pricePerKm: 14, distanceKm: 210 },
+  { from: 'Trichy', to: 'Kanyakumari', basePrice: 900, pricePerKm: 14, distanceKm: 245 },
+  { from: 'Trichy', to: 'Chennai', basePrice: 1200, pricePerKm: 13, distanceKm: 460 },
+  { from: 'Trichy', to: 'Munnar', basePrice: 1000, pricePerKm: 15, distanceKm: 190 },
+  { from: 'Trichy', to: 'Tirunelveli', basePrice: 600, pricePerKm: 13, distanceKm: 160 },
+  { from: 'Trichy', to: 'Madurai', basePrice: 600, pricePerKm: 13, distanceKm: 135 },
+  { from: 'Trichy', to: 'Coimbatore', basePrice: 700, pricePerKm: 13, distanceKm: 210 },
+  { from: 'Trichy', to: 'Bangalore', basePrice: 1500, pricePerKm: 13, distanceKm: 470 },
 ];
 
 export const vehicleTypes = [

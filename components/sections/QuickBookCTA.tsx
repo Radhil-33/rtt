@@ -3,45 +3,38 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Phone, ArrowRight, MessageSquare } from 'lucide-react';
 
+const PHONE = '+919790699932';
+const PHONE_DISPLAY = '+91 97906 99932';
+
 export default function QuickBookCTA() {
   return (
-    <section style={{ padding: '80px 24px', background: 'var(--cream-dark)' }}>
-      <div style={{ maxWidth: 900, margin: '0 auto' }}>
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-          style={{ background: 'linear-gradient(135deg, var(--deep) 0%, var(--deep-2) 100%)', borderRadius: 28, padding: 'clamp(40px, 6vw, 72px)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          
-          {/* Decorative circles */}
-          <div style={{ position: 'absolute', top: -60, right: -60, width: 250, height: 250, borderRadius: '50%', background: 'radial-gradient(circle, rgba(232,101,26,0.12) 0%, transparent 70%)' }} />
-          <div style={{ position: 'absolute', bottom: -40, left: -40, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(212,160,23,0.08) 0%, transparent 70%)' }} />
-
+    <section className="section" style={{ background: 'var(--cream-dark)' }}>
+      <div className="container">
+        <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }}
+          style={{ background: 'linear-gradient(135deg, var(--deep) 0%, var(--deep-2) 100%)', borderRadius: 24, padding: 'clamp(36px,6vw,68px) clamp(20px,5vw,64px)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: -50, right: -50, width: 220, height: 220, borderRadius: '50%', background: 'radial-gradient(circle,rgba(232,101,26,0.1) 0%,transparent 70%)', pointerEvents: 'none' }} />
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <span style={{ display: 'inline-block', background: 'rgba(232,101,26,0.2)', color: 'var(--gold-light)', padding: '6px 18px', borderRadius: 50, fontSize: 13, fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 20 }}>
-              Ready to Travel?
-            </span>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 700, color: 'white', marginBottom: 18, lineHeight: 1.15 }}>
+            <span className="section-tag" style={{ background: 'rgba(232,101,26,0.18)', color: 'var(--gold-light)' }}>Ready to Travel?</span>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(26px,5vw,50px)', fontWeight: 700, color: 'white', marginBottom: 16, lineHeight: 1.15 }}>
               Your Journey Starts<br />with a Single Call
             </h2>
-            <p style={{ color: 'rgba(253,248,240,0.7)', fontSize: 17, maxWidth: 520, margin: '0 auto 40px', lineHeight: 1.7 }}>
-              Call us now for instant booking confirmation, or fill our online form and we'll reach you within 30 minutes.
+            <p style={{ color: 'rgba(253,248,240,0.68)', fontSize: 'clamp(14px,2vw,17px)', maxWidth: 500, margin: '0 auto 36px', lineHeight: 1.7 }}>
+              Call us for instant confirmation, or book online and we'll reach you within 30 minutes.
             </p>
-
-            <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="tel:+919790699932" className="btn-primary" style={{ fontSize: 16, padding: '16px 36px' }}>
-                <Phone size={18} /> Call Now: +91 9790699932
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href={`tel:${PHONE}`} className="btn-primary" style={{ fontSize: 'clamp(14px,1.8vw,16px)', padding: 'clamp(13px,2vw,16px) clamp(18px,3vw,32px)' }}>
+                <Phone size={17} /> {PHONE_DISPLAY}
               </a>
-              <Link href="/booking" className="btn-secondary" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.4)', fontSize: 16, padding: '16px 36px' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
-                Book Online <ArrowRight size={18} />
+              <Link href="/booking" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 'clamp(14px,1.8vw,16px)', padding: 'clamp(12px,2vw,15px) clamp(18px,3vw,30px)', borderRadius: 50, border: '2px solid rgba(255,255,255,0.38)', color: 'white', textDecoration: 'none', transition: 'background 0.2s', whiteSpace: 'nowrap' }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'transparent'}>
+                Book Online <ArrowRight size={16} />
               </Link>
             </div>
-
-            <div style={{ marginTop: 32 }}>
-              <a href="https://wa.me/919790699932" target="_blank" rel="noopener"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: '#4ADE80', textDecoration: 'none', fontSize: 15, fontWeight: 500, transition: 'color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#86EFAC'}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = '#4ADE80'}>
-                <MessageSquare size={17} /> Or chat on WhatsApp →
+            <div style={{ marginTop: 28 }}>
+              <a href={`https://wa.me/${PHONE}`} target="_blank" rel="noopener"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 7, color: '#4ADE80', textDecoration: 'none', fontSize: 14, fontWeight: 500 }}>
+                <MessageSquare size={16} /> Chat on WhatsApp →
               </a>
             </div>
           </div>

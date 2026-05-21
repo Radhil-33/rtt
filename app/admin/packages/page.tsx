@@ -44,7 +44,7 @@ export default function AdminPackagesPage() {
   const removeDest = (i: number) => editing && set('destinations', editing.destinations.filter((_, idx) => idx !== i));
 
   return (
-    <div style={{ padding: 32 }}>
+    <div style={{ padding: 'clamp(16px,3vw,32px)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <div>
           <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 28, color: 'white', marginBottom: 6 }}>Tour Packages</h1>

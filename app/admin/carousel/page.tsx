@@ -40,7 +40,7 @@ export default function AdminCarouselPage() {
   const set = (k: keyof CarouselSlide, v: string) => setEditing(e => e ? { ...e, [k]: v } : e);
 
   return (
-    <div style={{ padding: 32 }}>
+    <div style={{ padding: 'clamp(16px,3vw,32px)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <div>
           <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 28, color: 'white', marginBottom: 6 }}>Carousel Slides</h1>
@@ -55,9 +55,9 @@ export default function AdminCarouselPage() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {carousel.map((slide, i) => (
           <motion.div key={slide.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, overflow: 'hidden', display: 'flex', alignItems: 'stretch' }}>
+            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, overflow: 'hidden', display: 'flex', alignItems: 'stretch', flexWrap: 'wrap' }}>
             {/* Image preview */}
-            <div style={{ width: 180, flexShrink: 0, position: 'relative', background: '#1A0F05' }}>
+            <div style={{ width: '100%', minWidth: 0, flexShrink: 0, position: 'relative', background: '#1A0F05', height: 140 }}>
               {slide.image ? (
                 <img src={slide.image} alt={slide.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
               ) : (

@@ -21,8 +21,8 @@ export default function HeroCarousel() {
   };
 
   useEffect(() => {
-    const timer = setInterval(next, 5500);
-    return () => clearInterval(timer);
+    const t = setInterval(next, 5500);
+    return () => clearInterval(t);
   }, [next]);
 
   const slide = carousel[current];
@@ -34,58 +34,41 @@ export default function HeroCarousel() {
   };
 
   return (
-    <section style={{ position: 'relative', height: 'min(92vh, 780px)', overflow: 'hidden', background: 'var(--deep)' }} aria-label="Featured destinations">
+    <section style={{ position: 'relative', height: 'min(88vh, 700px)', minHeight: 480, overflow: 'hidden', background: 'var(--deep)' }} aria-label="Featured destinations">
       <AnimatePresence initial={false} custom={direction}>
-        <motion.div
-          key={current}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
-          style={{ position: 'absolute', inset: 0 }}
-        >
-          {/* Background image */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            backgroundImage: `url(${slide.image})`,
-            backgroundSize: 'cover', backgroundPosition: 'center',
-          }} />
-          {/* Gradient overlay */}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(26,15,5,0.85) 0%, rgba(26,15,5,0.4) 50%, rgba(26,15,5,0.6) 100%)' }} />
-          
-          {/* Decorative mandala pattern */}
-          <div style={{ position: 'absolute', right: '5%', top: '50%', transform: 'translateY(-50%)', width: 400, height: 400, opacity: 0.06, backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px', borderRadius: '50%' }} />
+        <motion.div key={current} custom={direction} variants={variants} initial="enter" animate="center" exit="exit"
+          transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1] }} style={{ position: 'absolute', inset: 0 }}>
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${slide.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(26,15,5,0.88) 0%, rgba(26,15,5,0.45) 60%, rgba(26,15,5,0.65) 100%)' }} />
         </motion.div>
       </AnimatePresence>
 
       {/* Content */}
-      <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', width: '100%' }}>
+      <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center', paddingBottom: 80 }}>
+        <div className="container">
           <AnimatePresence mode="wait">
-            <motion.div key={`content-${current}`} initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5, delay: 0.2 }}>
+            <motion.div key={`c-${current}`} initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.48, delay: 0.18 }}>
               {/* Trust badge */}
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(232,101,26,0.2)', border: '1px solid rgba(232,101,26,0.4)', padding: '8px 18px', borderRadius: 50, marginBottom: 24 }}>
-                <Star size={14} fill="var(--gold)" color="var(--gold)" />
-                <span style={{ color: 'var(--gold-light)', fontSize: 13, fontWeight: 600, letterSpacing: '0.5px' }}>4.9★ Rated · 1000+ Happy Travelers</span>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(232,101,26,0.2)', border: '1px solid rgba(232,101,26,0.35)', padding: '6px 14px', borderRadius: 50, marginBottom: 20 }}>
+                <Star size={13} fill="var(--gold)" color="var(--gold)" />
+                <span style={{ color: 'var(--gold-light)', fontSize: 12, fontWeight: 600 }}>4.9★ Rated · 1000+ Happy Travelers</span>
               </div>
 
-              <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(36px, 6vw, 76px)', fontWeight: 900, color: 'white', lineHeight: 1.1, marginBottom: 20, maxWidth: 700 }}>
+              <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(30px, 6vw, 72px)', fontWeight: 900, color: 'white', lineHeight: 1.1, marginBottom: 16, maxWidth: 680 }}>
                 {slide.title}
               </h1>
-              <p style={{ fontSize: 'clamp(15px, 2vw, 19px)', color: 'rgba(253,248,240,0.85)', marginBottom: 36, maxWidth: 560, lineHeight: 1.7 }}>
+              <p style={{ fontSize: 'clamp(14px, 2.2vw, 18px)', color: 'rgba(253,248,240,0.82)', marginBottom: 32, maxWidth: 520, lineHeight: 1.7 }}>
                 {slide.subtitle}
               </p>
 
-              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                <Link href={slide.ctaLink} className="btn-primary" style={{ fontSize: 16, padding: '16px 36px' }}>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                <Link href={slide.ctaLink} className="btn-primary" style={{ fontSize: 'clamp(14px,1.5vw,16px)', padding: 'clamp(12px,1.5vw,16px) clamp(20px,2.5vw,32px)' }}>
                   {slide.ctaText}
                 </Link>
-                <Link href="/packages" className="btn-secondary" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.5)', fontSize: 16, padding: '16px 36px' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.15)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
-                  View All Packages
+                <Link href="/packages" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 'clamp(14px,1.5vw,16px)', padding: 'clamp(11px,1.5vw,15px) clamp(18px,2.5vw,30px)', borderRadius: 50, border: '2px solid rgba(255,255,255,0.45)', color: 'white', textDecoration: 'none', transition: 'background 0.2s', whiteSpace: 'nowrap' }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.12)'}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'transparent'}>
+                  View Packages
                 </Link>
               </div>
             </motion.div>
@@ -94,34 +77,36 @@ export default function HeroCarousel() {
       </div>
 
       {/* Stats bar */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 3, background: 'rgba(26,15,5,0.7)', backdropFilter: 'blur(12px)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '16px 24px', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: 16 }}>
-          {[['14+', 'Years Experience'], ['1000+', 'Happy Customers'], ['50+', 'Destinations'], ['24/7', 'Support']].map(([num, label]) => (
-            <div key={label} style={{ textAlign: 'center' }}>
-              <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 700, color: 'var(--gold-light)' }}>{num}</div>
-              <div style={{ fontSize: 12, color: 'rgba(253,248,240,0.6)', fontWeight: 500 }}>{label}</div>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 3, background: 'rgba(15,8,2,0.72)', backdropFilter: 'blur(12px)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-around', padding: '14px 0', gap: 8 }}>
+          {[['14+', 'Years'], ['1000+', 'Customers'], ['50+', 'Destinations'], ['24/7', 'Support']].map(([num, label]) => (
+            <div key={label} style={{ textAlign: 'center', flex: 1 }}>
+              <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(16px,3vw,26px)', fontWeight: 700, color: 'var(--gold-light)', lineHeight: 1 }}>{num}</div>
+              <div style={{ fontSize: 'clamp(10px,1.5vw,12px)', color: 'rgba(253,248,240,0.55)', marginTop: 3, fontWeight: 500 }}>{label}</div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Navigation arrows */}
-      <button onClick={prev} style={{ position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)', zIndex: 4, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', width: 48, height: 48, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', cursor: 'pointer', backdropFilter: 'blur(8px)', transition: 'all 0.2s' }}
+      {/* Arrow buttons — hidden on small mobile to avoid crowding */}
+      <button onClick={prev} aria-label="Previous slide"
+        style={{ position: 'absolute', left: 12, top: '46%', transform: 'translateY(-50%)', zIndex: 4, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.18)', width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', cursor: 'pointer', backdropFilter: 'blur(8px)', transition: 'background 0.2s' }}
         onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'var(--saffron)'}
-        onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'}>
-        <ChevronLeft size={22} />
+        onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.12)'}>
+        <ChevronLeft size={20} />
       </button>
-      <button onClick={next} style={{ position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)', zIndex: 4, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', width: 48, height: 48, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', cursor: 'pointer', backdropFilter: 'blur(8px)', transition: 'all 0.2s' }}
+      <button onClick={next} aria-label="Next slide"
+        style={{ position: 'absolute', right: 12, top: '46%', transform: 'translateY(-50%)', zIndex: 4, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.18)', width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', cursor: 'pointer', backdropFilter: 'blur(8px)', transition: 'background 0.2s' }}
         onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'var(--saffron)'}
-        onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'}>
-        <ChevronRight size={22} />
+        onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.12)'}>
+        <ChevronRight size={20} />
       </button>
 
       {/* Dots */}
-      <div style={{ position: 'absolute', bottom: 80, left: '50%', transform: 'translateX(-50%)', zIndex: 4, display: 'flex', gap: 8 }}>
+      <div style={{ position: 'absolute', bottom: 68, left: '50%', transform: 'translateX(-50%)', zIndex: 4, display: 'flex', gap: 7 }}>
         {carousel.map((_, i) => (
-          <button key={i} onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
-            style={{ width: i === current ? 28 : 8, height: 8, borderRadius: 4, background: i === current ? 'var(--saffron)' : 'rgba(255,255,255,0.4)', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease' }} />
+          <button key={i} onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }} aria-label={`Go to slide ${i + 1}`}
+            style={{ width: i === current ? 24 : 7, height: 7, borderRadius: 4, background: i === current ? 'var(--saffron)' : 'rgba(255,255,255,0.38)', border: 'none', cursor: 'pointer', transition: 'all 0.28s', padding: 0 }} />
         ))}
       </div>
     </section>
