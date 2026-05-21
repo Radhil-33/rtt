@@ -104,6 +104,6 @@ export const useSiteStore = create<SiteStore>()(
         fareRules: defaultFareRules,
       }),
     }),
-    { name: 'rashmi-tours-store' }
+    { name: 'rashmi-tours-store' , version: 2}
   )
 );
