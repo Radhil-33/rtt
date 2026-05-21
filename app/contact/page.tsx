@@ -1,43 +1,43 @@
 'use client';
-
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, MessageSquare, Clock, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-type ContactForm = {
-  name: string;
-  phone: string;
-  email: string;
-  subject: string;
-  message: string;
-};
-
-const INITIAL_FORM: ContactForm = {
-  name: '',
-  phone: '',
-  email: '',
-  subject: '',
-  message: '',
-};
+const PHONE = '+919790699932';
+const PHONE_DISPLAY = '+91 97906 99932';
+const EMAIL = 'rashmitoursanddtravels@gmail.com';
+const WA_URL = `https://wa.me/${PHONE}`;
 
 export default function ContactPage() {
-  const [form, setForm] = useState<ContactForm>(INITIAL_FORM);
+  const [form, setForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const setField = <K extends keyof ContactForm>(key: K, value: ContactForm[K]) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  };
+  const set = (k: string, v: string) =>
+    setForm((f) => ({ ...f, [k]: v }));
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+
+    if (!form.name || !form.phone || !form.message) {
+      toast.error('Please fill in required fields.');
+      return;
+    }
 
     try {
-      const response = await fetch('/api/contact', {
+      setLoading(true);
+
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,18 +45,25 @@ export default function ContactPage() {
         body: JSON.stringify(form),
       });
 
-      const data = await response.json().catch(() => null);
+      const data = await res.json();
 
-      if (!response.ok) {
-        throw new Error(data?.message || 'Failed to send message');
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || 'Failed to send message');
       }
 
       toast.success('Message sent successfully!');
       setSent(true);
-      setForm(INITIAL_FORM);
-    } catch (error) {
+
+      setForm({
+        name: '',
+        phone: '',
+        email: '',
+        subject: '',
+        message: '',
+      });
+    } catch (error: any) {
       console.error(error);
-      toast.error('Something went wrong. Please try again.');
+      toast.error(error.message || 'Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -66,23 +73,23 @@ export default function ContactPage() {
     {
       icon: Phone,
       label: 'Call / WhatsApp',
-      value: '+91 9790699932',
-      href: 'tel:+919790699932',
+      value: PHONE_DISPLAY,
+      href: `tel:${PHONE}`,
       sub: 'Available 24/7',
     },
     {
       icon: Mail,
       label: 'Email Us',
-      value: 'rashmitoursandtravels@gmail.com',
-      href: 'mailto:rashmitoursandtravels@gmail.com',
+      value: EMAIL,
+      href: `mailto:${EMAIL}`,
       sub: 'Reply within 2 hours',
     },
     {
       icon: MapPin,
-      label: 'Visit Us',
-      value: '45 Anna Nagar Main Road, Madurai – 625020',
-      href: 'https://maps.google.com/?q=45+Anna+Nagar+Main+Road,+Madurai+625020',
-      sub: 'Tamil Nadu, India',
+      label: 'Based In',
+      value: 'Trichy, Tamil Nadu, India',
+      href: undefined,
+      sub: 'Serving all South India',
     },
     {
       icon: Clock,
@@ -97,30 +104,25 @@ export default function ContactPage() {
     <>
       <Navbar />
       <main>
+        {/* Hero */}
         <div
           style={{
-            background: 'linear-gradient(135deg, var(--deep) 0%, var(--deep-2) 100%)',
-            padding: '80px 24px',
+            background:
+              'linear-gradient(135deg, var(--deep) 0%, var(--deep-2) 100%)',
+            padding: 'clamp(56px,8vw,100px) 16px',
             textAlign: 'center',
           }}
         >
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.45 }}
           >
             <span
+              className="section-tag"
               style={{
-                display: 'inline-block',
-                background: 'rgba(232,101,26,0.2)',
+                background: 'rgba(232,101,26,0.18)',
                 color: 'var(--gold-light)',
-                padding: '6px 18px',
-                borderRadius: 50,
-                fontSize: 13,
-                fontWeight: 600,
-                letterSpacing: '1px',
-                textTransform: 'uppercase',
-                marginBottom: 16,
               }}
             >
               Get in Touch
@@ -129,10 +131,10 @@ export default function ContactPage() {
             <h1
               style={{
                 fontFamily: 'Playfair Display, serif',
-                fontSize: 'clamp(32px, 5vw, 60px)',
+                fontSize: 'clamp(30px,6vw,60px)',
                 fontWeight: 700,
                 color: 'white',
-                marginBottom: 16,
+                marginBottom: 14,
               }}
             >
               Contact Us
@@ -140,126 +142,151 @@ export default function ContactPage() {
 
             <p
               style={{
-                color: 'rgba(253,248,240,0.75)',
-                fontSize: 17,
-                maxWidth: 500,
+                color: 'rgba(253,248,240,0.7)',
+                fontSize: 16,
+                maxWidth: 440,
                 margin: '0 auto',
               }}
             >
-              We&apos;re always happy to help. Reach out for bookings, queries, or just to say hello!
+              We're always happy to help. Reach out for bookings,
+              queries, or just to say hello!
             </p>
           </motion.div>
         </div>
 
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '64px 24px' }}>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1.6fr',
-              gap: 48,
-              alignItems: 'start',
-            }}
-          >
+        <div
+          className="container"
+          style={{ paddingTop: 56, paddingBottom: 72 }}
+        >
+          <div className="contact-grid">
+            {/* Info cards */}
             <div>
               <h2
                 style={{
                   fontFamily: 'Playfair Display, serif',
-                  fontSize: 28,
+                  fontSize: 'clamp(22px,3vw,28px)',
                   fontWeight: 700,
                   color: 'var(--deep)',
-                  marginBottom: 32,
+                  marginBottom: 28,
                 }}
               >
                 How to Reach Us
               </h2>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                {contactInfo.map(({ icon: Icon, label, value, href, sub }) => (
-                  <motion.div
-                    key={label}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    style={{
-                      display: 'flex',
-                      gap: 16,
-                      alignItems: 'flex-start',
-                      padding: 20,
-                      background: 'white',
-                      borderRadius: 16,
-                      border: '1px solid rgba(232,101,26,0.08)',
-                      transition: 'all 0.3s',
-                    }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget as HTMLElement;
-                      el.style.borderColor = 'rgba(232,101,26,0.3)';
-                      el.style.boxShadow = 'var(--shadow-warm)';
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLElement;
-                      el.style.borderColor = 'rgba(232,101,26,0.08)';
-                      el.style.boxShadow = 'none';
-                    }}
-                  >
-                    <div
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 16,
+                  marginBottom: 24,
+                }}
+              >
+                {contactInfo.map(
+                  ({ icon: Icon, label, value, href, sub }) => (
+                    <motion.div
+                      key={label}
+                      initial={{ opacity: 0, x: -16 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
                       style={{
-                        width: 48,
-                        height: 48,
-                        borderRadius: 14,
-                        background: 'linear-gradient(135deg, rgba(232,101,26,0.12), rgba(212,160,23,0.08))',
                         display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
+                        gap: 14,
+                        alignItems: 'flex-start',
+                        padding: '18px 18px',
+                        background: 'white',
+                        borderRadius: 14,
+                        border:
+                          '1px solid rgba(232,101,26,0.08)',
+                        transition: 'all 0.25s',
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.borderColor =
+                          'rgba(232,101,26,0.28)';
+                        (e.currentTarget as HTMLElement).style.boxShadow =
+                          'var(--shadow-warm)';
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.borderColor =
+                          'rgba(232,101,26,0.08)';
+                        (e.currentTarget as HTMLElement).style.boxShadow =
+                          'none';
                       }}
                     >
-                      <Icon size={20} color="var(--saffron)" />
-                    </div>
-
-                    <div>
                       <div
                         style={{
-                          fontSize: 12,
-                          color: 'var(--saffron)',
-                          fontWeight: 600,
-                          letterSpacing: '0.5px',
-                          textTransform: 'uppercase',
-                          marginBottom: 4,
+                          width: 44,
+                          height: 44,
+                          borderRadius: 12,
+                          background:
+                            'linear-gradient(135deg,rgba(232,101,26,0.1),rgba(212,160,23,0.07))',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
                         }}
                       >
-                        {label}
+                        <Icon size={19} color="var(--saffron)" />
                       </div>
 
-                      {href ? (
-                        <a
-                          href={href}
-                          target={label === 'Visit Us' ? '_blank' : undefined}
-                          rel={label === 'Visit Us' ? 'noopener noreferrer' : undefined}
+                      <div>
+                        <div
                           style={{
-                            fontSize: 15,
-                            fontWeight: 600,
-                            color: 'var(--deep)',
-                            textDecoration: 'none',
+                            fontSize: 11,
+                            color: 'var(--saffron)',
+                            fontWeight: 700,
+                            letterSpacing: '0.5px',
+                            textTransform: 'uppercase',
+                            marginBottom: 3,
                           }}
                         >
-                          {value}
-                        </a>
-                      ) : (
-                        <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--deep)' }}>{value}</div>
-                      )}
+                          {label}
+                        </div>
 
-                      <div style={{ fontSize: 13, color: 'var(--text-light)', marginTop: 2 }}>{sub}</div>
-                    </div>
-                  </motion.div>
-                ))}
+                        {href ? (
+                          <a
+                            href={href}
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 600,
+                              color: 'var(--deep)',
+                              textDecoration: 'none',
+                              wordBreak: 'break-word',
+                            }}
+                          >
+                            {value}
+                          </a>
+                        ) : (
+                          <div
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 600,
+                              color: 'var(--deep)',
+                            }}
+                          >
+                            {value}
+                          </div>
+                        )}
+
+                        <div
+                          style={{
+                            fontSize: 12,
+                            color: 'var(--text-light)',
+                            marginTop: 2,
+                          }}
+                        >
+                          {sub}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )
+                )}
               </div>
 
               <a
-                href="https://wa.me/919790699932"
+                href={WA_URL}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 style={{
-                  marginTop: 24,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -271,83 +298,139 @@ export default function ContactPage() {
                   fontWeight: 600,
                   fontSize: 15,
                   textDecoration: 'none',
-                  transition: 'all 0.3s',
-                  boxShadow: '0 4px 20px rgba(37,211,102,0.3)',
+                  boxShadow:
+                    '0 4px 18px rgba(37,211,102,0.28)',
+                  transition: 'transform 0.2s',
                 }}
-                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'}
-                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.transform = 'none'}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLElement).style.transform =
+                    'translateY(-2px)')
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.transform =
+                    'none')
+                }
               >
                 <MessageSquare size={18} /> Chat on WhatsApp
               </a>
             </div>
 
+            {/* Form */}
             <div
               style={{
                 background: 'white',
-                borderRadius: 24,
-                padding: 'clamp(24px, 4vw, 40px)',
-                boxShadow: '0 8px 40px rgba(26,15,5,0.08)',
-                border: '1px solid rgba(232,101,26,0.08)',
+                borderRadius: 20,
+                padding: 'clamp(22px,4vw,40px)',
+                boxShadow:
+                  '0 8px 32px rgba(26,15,5,0.07)',
+                border:
+                  '1px solid rgba(232,101,26,0.07)',
               }}
             >
               {sent ? (
                 <motion.div
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  style={{ textAlign: 'center', padding: '40px 0' }}
+                  style={{
+                    textAlign: 'center',
+                    padding: '32px 0',
+                  }}
                 >
-                  <div style={{ fontSize: 56, marginBottom: 16 }}>✅</div>
+                  <div
+                    style={{
+                      fontSize: 52,
+                      marginBottom: 14,
+                    }}
+                  >
+                    ✅
+                  </div>
+
                   <h3
                     style={{
-                      fontFamily: 'Playfair Display, serif',
-                      fontSize: 24,
+                      fontFamily:
+                        'Playfair Display, serif',
+                      fontSize: 22,
                       color: 'var(--deep)',
-                      marginBottom: 12,
+                      marginBottom: 10,
                     }}
                   >
                     Message Sent!
                   </h3>
-                  <p style={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>
-                    Thank you, {form.name || 'there'}! We&apos;ll get back to you soon.
+
+                  <p
+                    style={{
+                      color: 'var(--text-muted)',
+                      lineHeight: 1.7,
+                      fontSize: 14,
+                    }}
+                  >
+                    Thank you! We&apos;ll get back to you
+                    soon.
                   </p>
-                  <button onClick={() => setSent(false)} className="btn-secondary" style={{ marginTop: 24 }}>
-                    Send Another Message
+
+                  <button
+                    onClick={() => setSent(false)}
+                    className="btn-secondary"
+                    style={{ marginTop: 22 }}
+                  >
+                    Send Another
                   </button>
                 </motion.div>
               ) : (
                 <>
                   <h2
                     style={{
-                      fontFamily: 'Playfair Display, serif',
-                      fontSize: 24,
+                      fontFamily:
+                        'Playfair Display, serif',
+                      fontSize:
+                        'clamp(20px,2.5vw,24px)',
                       fontWeight: 700,
                       color: 'var(--deep)',
-                      marginBottom: 28,
+                      marginBottom: 26,
                     }}
                   >
                     Send Us a Message
                   </h2>
 
-                  <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                  <form
+                    onSubmit={handleSubmit}
+                    autoComplete="off"
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 16,
+                    }}
+                  >
+                    <div className="contact-form-row">
                       <div>
-                        <label className="form-label">Your Name *</label>
+                        <label className="form-label">
+                          Your Name *
+                        </label>
+
                         <input
                           className="form-input"
                           value={form.name}
-                          onChange={(e) => setField('name', e.target.value)}
+                          onChange={(e) =>
+                            set('name', e.target.value)
+                          }
                           placeholder="Full name"
                           required
+                          autoComplete="off"
                         />
                       </div>
 
                       <div>
-                        <label className="form-label">Phone Number *</label>
+                        <label className="form-label">
+                          Phone *
+                        </label>
+
                         <input
                           className="form-input"
                           value={form.phone}
-                          onChange={(e) => setField('phone', e.target.value)}
-                          placeholder="+91 9790699932"
+                          onChange={(e) =>
+                            set('phone', e.target.value)
+                          }
+                          placeholder="+91 97906 99932"
                           type="tel"
                           required
                         />
@@ -355,42 +438,70 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="form-label">Email Address</label>
+                      <label className="form-label">
+                        Email
+                      </label>
+
                       <input
                         className="form-input"
                         value={form.email}
-                        onChange={(e) => setField('email', e.target.value)}
+                        onChange={(e) =>
+                          set('email', e.target.value)
+                        }
                         placeholder="you@email.com"
                         type="email"
                       />
                     </div>
 
                     <div>
-                      <label className="form-label">Subject</label>
+                      <label className="form-label">
+                        Subject
+                      </label>
+
                       <select
                         className="form-input"
                         value={form.subject}
-                        onChange={(e) => setField('subject', e.target.value)}
+                        onChange={(e) =>
+                          set('subject', e.target.value)
+                        }
                       >
-                        <option value="">Select a subject</option>
-                        <option value="Booking Inquiry">Booking Inquiry</option>
-                        <option value="Package Information">Package Information</option>
-                        <option value="Custom Tour Request">Custom Tour Request</option>
-                        <option value="Complaint / Feedback">Complaint / Feedback</option>
-                        <option value="Other">Other</option>
+                        <option value="">
+                          Select a subject
+                        </option>
+                        <option>Booking Inquiry</option>
+                        <option>
+                          Package Information
+                        </option>
+                        <option>
+                          Custom Tour Request
+                        </option>
+                        <option>
+                          Complaint / Feedback
+                        </option>
+                        <option>Other</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className="form-label">Message *</label>
+                      <label className="form-label">
+                        Message *
+                      </label>
+
                       <textarea
                         className="form-input"
                         value={form.message}
-                        onChange={(e) => setField('message', e.target.value)}
-                        placeholder="Tell us how we can help you..."
+                        onChange={(e) =>
+                          set(
+                            'message',
+                            e.target.value
+                          )
+                        }
+                        placeholder="How can we help you?"
                         rows={5}
                         required
-                        style={{ resize: 'vertical' }}
+                        style={{
+                          resize: 'vertical',
+                        }}
                       />
                     </div>
 
@@ -398,14 +509,37 @@ export default function ContactPage() {
                       type="submit"
                       className="btn-primary"
                       disabled={loading}
-                      style={{ justifyContent: 'center', padding: '16px' }}
+                      style={{
+                        padding: '15px',
+                        fontSize: 16,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        width: '100%',
+                      }}
                     >
-                      {loading ? 'Sending...' : (
+                      {loading ? (
+                        <span>Sending...</span>
+                      ) : (
                         <>
-                          <Send size={17} /> Send Message
+                          <Send size={16} />
+                          <span>Send Message</span>
                         </>
                       )}
                     </button>
+
+                    <p
+                      style={{
+                        fontSize: 12,
+                        color: 'var(--text-light)',
+                        textAlign: 'center',
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      Your enquiry will be sent
+                      securely to our team.
+                    </p>
                   </form>
                 </>
               )}
@@ -413,7 +547,36 @@ export default function ContactPage() {
           </div>
         </div>
       </main>
+
       <Footer />
+
+      <style>{`
+        .contact-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 36px;
+          align-items: start;
+        }
+
+        .contact-form-row {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
+
+        @media (min-width: 540px) {
+          .contact-form-row {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+
+        @media (min-width: 900px) {
+          .contact-grid {
+            grid-template-columns: 1fr 1.5fr;
+            gap: 48px;
+          }
+        }
+      `}</style>
     </>
   );
 }

@@ -127,7 +127,7 @@ function BookingForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: 820, margin: '0 auto', padding: 'clamp(32px,5vw,56px) clamp(16px,3vw,24px)' }}>
+    <form onSubmit={handleSubmit} autoComplete="off" style={{ maxWidth: 820, margin: '0 auto', padding: 'clamp(32px,5vw,56px) clamp(16px,3vw,24px)' }}>
       <div style={{ textAlign: 'center', marginBottom: 40 }}>
         <span className="section-tag">Book a Cab</span>
         <h1 className="section-title">{pkg ? `Book: ${pkg.title}` : 'Book Your Ride'}</h1>
