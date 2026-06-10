@@ -10,7 +10,8 @@ const PHONE_DISPLAY = '+91 97906 99932';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/packages', label: 'Packages' },
-  { href: '/#fare-estimator', label: 'Fare Estimator' },
+  { href: '/itinerary', label: 'Planner' },
+  { href: '/hotels-restaurants', label: 'Hotels & Dining' },
   { href: '/contact', label: 'Contact' },
 ];
 

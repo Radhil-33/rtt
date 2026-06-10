@@ -10,7 +10,8 @@ const WA_URL = `https://wa.me/${PHONE}`;
 const quickLinks = [
   { href: '/', label: 'Home' },
   { href: '/packages', label: 'Tour Packages' },
-  { href: '/#fare-estimator', label: 'Fare Estimator' },
+  { href: '/itinerary', label: 'Itinerary Planner' },
+  { href: '/hotels-restaurants', label: 'Hotels & Dining' },
   { href: '/booking', label: 'Book a Cab' },
   { href: '/contact', label: 'Contact Us' },
 ];
