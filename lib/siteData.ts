@@ -136,7 +136,7 @@ export const defaultPackages: Package[] = [
     id: 'p5',
     title: 'Kanyakumari Sunrise Trip',
     description: 'Watch the sun rise from the southernmost tip of India where three seas meet. A spiritual and scenic marvel.',
-    image: 'https://images.unsplash.com/photo-1623766216903-f4b5e5e5c8?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1610902552120-c577dbde88a8?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     duration: '1 Day',
     price: 3800,
     priceUnit: 'per cab',
