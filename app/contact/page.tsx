@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 
 const PHONE = '+919790699932';
 const PHONE_DISPLAY = '+91 97906 99932';
-const EMAIL = 'rashmitoursanddtravels@gmail.com';
+const EMAIL = 'info@rashmitours.in';
 const WA_URL = `https://wa.me/${PHONE}`;
 
 export default function ContactPage() {
@@ -108,7 +108,7 @@ export default function ContactPage() {
         <div
           style={{
             background:
-              'linear-gradient(135deg, var(--deep) 0%, var(--deep-2) 100%)',
+              'linear-gradient(135deg, #0B2344 0%, #071523 100%)',
             padding: 'clamp(56px,8vw,100px) 16px',
             textAlign: 'center',
           }}
@@ -121,8 +121,8 @@ export default function ContactPage() {
             <span
               className="section-tag"
               style={{
-                background: 'rgba(232,101,26,0.18)',
-                color: 'var(--gold-light)',
+                background: 'rgba(212,175,55,0.18)',
+                color: '#D4AF37',
               }}
             >
               Get in Touch
@@ -142,7 +142,7 @@ export default function ContactPage() {
 
             <p
               style={{
-                color: 'rgba(253,248,240,0.7)',
+                color: 'rgba(248,246,240,0.7)',
                 fontSize: 16,
                 maxWidth: 440,
                 margin: '0 auto',
@@ -166,7 +166,7 @@ export default function ContactPage() {
                   fontFamily: 'Playfair Display, serif',
                   fontSize: 'clamp(22px,3vw,28px)',
                   fontWeight: 700,
-                  color: 'var(--deep)',
+                  color: 'var(--navy)',
                   marginBottom: 28,
                 }}
               >
@@ -193,21 +193,18 @@ export default function ContactPage() {
                         gap: 14,
                         alignItems: 'flex-start',
                         padding: '18px 18px',
-                        background: 'white',
+                        background: 'var(--bg-surface)',
                         borderRadius: 14,
-                        border:
-                          '1px solid rgba(232,101,26,0.08)',
+                        border: '1px solid var(--border-light)',
                         transition: 'all 0.25s',
                       }}
                       onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLElement).style.borderColor =
-                          'rgba(232,101,26,0.28)';
+                        (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-mid)';
                         (e.currentTarget as HTMLElement).style.boxShadow =
-                          'var(--shadow-warm)';
+                          'var(--shadow-navy)';
                       }}
                       onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.borderColor =
-                          'rgba(232,101,26,0.08)';
+                        (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-light)';
                         (e.currentTarget as HTMLElement).style.boxShadow =
                           'none';
                       }}
@@ -218,21 +215,21 @@ export default function ContactPage() {
                           height: 44,
                           borderRadius: 12,
                           background:
-                            'linear-gradient(135deg,rgba(232,101,26,0.1),rgba(212,160,23,0.07))',
+                            'linear-gradient(135deg, rgba(11,35,68,0.1), rgba(212,175,55,0.06))',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           flexShrink: 0,
                         }}
                       >
-                        <Icon size={19} color="var(--saffron)" />
+                        <Icon size={19} color="var(--text-heading)" />
                       </div>
 
                       <div>
                         <div
                           style={{
                             fontSize: 11,
-                            color: 'var(--saffron)',
+                            color: 'var(--text-heading)',
                             fontWeight: 700,
                             letterSpacing: '0.5px',
                             textTransform: 'uppercase',
@@ -248,7 +245,7 @@ export default function ContactPage() {
                             style={{
                               fontSize: 14,
                               fontWeight: 600,
-                              color: 'var(--deep)',
+                              color: 'var(--text-heading)',
                               textDecoration: 'none',
                               wordBreak: 'break-word',
                             }}
@@ -260,7 +257,7 @@ export default function ContactPage() {
                             style={{
                               fontSize: 14,
                               fontWeight: 600,
-                              color: 'var(--deep)',
+                              color: 'var(--text-heading)',
                             }}
                           >
                             {value}
@@ -270,7 +267,7 @@ export default function ContactPage() {
                         <div
                           style={{
                             fontSize: 12,
-                            color: 'var(--text-light)',
+                            color: 'var(--text-muted)',
                             marginTop: 2,
                           }}
                         >
@@ -318,13 +315,13 @@ export default function ContactPage() {
             {/* Form */}
             <div
               style={{
-                background: 'white',
+                background: 'var(--bg-surface)',
                 borderRadius: 20,
                 padding: 'clamp(22px,4vw,40px)',
                 boxShadow:
-                  '0 8px 32px rgba(26,15,5,0.07)',
+                  '0 8px 32px rgba(7,21,35,0.07)',
                 border:
-                  '1px solid rgba(232,101,26,0.07)',
+                  '1px solid rgba(11,35,68,0.07)',
               }}
             >
               {sent ? (
@@ -350,7 +347,7 @@ export default function ContactPage() {
                       fontFamily:
                         'Playfair Display, serif',
                       fontSize: 22,
-                      color: 'var(--deep)',
+                      color: 'var(--navy)',
                       marginBottom: 10,
                     }}
                   >
@@ -359,7 +356,7 @@ export default function ContactPage() {
 
                   <p
                     style={{
-                      color: 'var(--text-muted)',
+                      color: 'var(--text-body)',
                       lineHeight: 1.7,
                       fontSize: 14,
                     }}
@@ -385,7 +382,7 @@ export default function ContactPage() {
                       fontSize:
                         'clamp(20px,2.5vw,24px)',
                       fontWeight: 700,
-                      color: 'var(--deep)',
+                      color: 'var(--navy)',
                       marginBottom: 26,
                     }}
                   >
@@ -532,7 +529,7 @@ export default function ContactPage() {
                     <p
                       style={{
                         fontSize: 12,
-                        color: 'var(--text-light)',
+                        color: 'var(--text-muted)',
                         textAlign: 'center',
                         lineHeight: 1.5,
                       }}

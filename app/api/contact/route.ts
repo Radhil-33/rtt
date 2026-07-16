@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 //import twilio from 'twilio';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
 /*
 const twilioClient = twilio(
   process.env.TWILIO_ACCOUNT_SID,
@@ -27,8 +27,8 @@ ${body.message}
 
     // SEND EMAIL
     const response = await resend.emails.send({
-    from: `${body.name} <onboarding@resend.dev>`,
-    to: 'rashmitoursanddtravels@gmail.com',
+    from: `${body.name} <support@rashmitours.in>`,
+    to: 'support@rashmitours.in',
     subject: body.subject || `New Enquiry from ${body.name}`,
     text: message,
     });

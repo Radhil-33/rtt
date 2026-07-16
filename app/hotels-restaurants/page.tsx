@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck, Check, Percent, Building, Utensils, Star, Phone, User, Calendar, Tag, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -142,6 +143,10 @@ const RESTAURANT_PARTNERS: RestaurantPartner[] = [
 ];
 
 export default function HotelsRestaurantsPage() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDark = mounted && resolvedTheme === 'dark';
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -207,10 +212,10 @@ export default function HotelsRestaurantsPage() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '90vh', background: 'var(--cream)' }}>
+      <main style={{ minHeight: '90vh', background: '#F8F6F0' }}>
         {/* Banner Hero */}
         <div style={{
-          background: 'linear-gradient(135deg, var(--deep) 0%, var(--deep-2) 100%)',
+          background: 'linear-gradient(135deg, #0B2344 0%, #071523 100%)',
           padding: 'clamp(56px,7vw,90px) 16px',
           textAlign: 'center'
         }}>
@@ -219,7 +224,7 @@ export default function HotelsRestaurantsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <span className="section-tag" style={{ background: 'rgba(232,101,26,0.18)', color: 'var(--gold-light)' }}>
+            <span className="section-tag" style={{ background: 'rgba(212,175,55,0.18)', color: '#D4AF37' }}>
               Premium Booking Deals
             </span>
             <h1 style={{
@@ -232,7 +237,7 @@ export default function HotelsRestaurantsPage() {
               Hotels &amp; Dining Bookings
             </h1>
             <p style={{
-              color: 'rgba(253,248,240,0.7)',
+              color: 'var(--text-on-dark-muted)',
               fontSize: 16,
               maxWidth: 580,
               margin: '0 auto'
@@ -257,29 +262,29 @@ export default function HotelsRestaurantsPage() {
             ].map((prop, idx) => (
               <div key={idx} style={{
                 background: 'white',
-                border: '1px solid rgba(232,101,26,0.08)',
+                border: '1px solid var(--border-light)',
                 borderRadius: 16,
                 padding: '24px 20px',
                 display: 'flex',
                 gap: 16,
                 alignItems: 'flex-start',
-                boxShadow: '0 4px 18px rgba(26,15,5,0.02)'
+                boxShadow: '0 4px 18px rgba(7,21,35,0.02)'
               }}>
                 <div style={{
                   width: 44,
                   height: 44,
                   borderRadius: 12,
-                  background: 'rgba(232,101,26,0.08)',
+                  background: 'var(--tag-bg)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0
                 }}>
-                  <prop.icon size={20} color="var(--saffron)" />
+                  <prop.icon size={20} color={isDark ? "#D4AF37" : "#0B2344"} />
                 </div>
                 <div>
-                  <h4 style={{ margin: '0 0 6px', color: 'var(--deep)', fontWeight: 700, fontSize: 15 }}>{prop.title}</h4>
-                  <p style={{ margin: 0, fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.5 }}>{prop.desc}</p>
+                  <h4 style={{ margin: '0 0 6px', color: 'var(--navy)', fontWeight: 700, fontSize: 15 }}>{prop.title}</h4>
+                  <p style={{ margin: 0, fontSize: 13, color: 'var(--text-body)', lineHeight: 1.5 }}>{prop.desc}</p>
                 </div>
               </div>
             ))}
@@ -289,10 +294,10 @@ export default function HotelsRestaurantsPage() {
           <div style={{ marginBottom: 64 }}>
             <div style={{ textAlign: 'center', marginBottom: 36 }}>
               <span className="section-tag">Partner Hotels</span>
-              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(24px, 4.5vw, 36px)', color: 'var(--deep)', fontWeight: 700, margin: '8px 0 10px' }}>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(24px, 4.5vw, 36px)', color: 'var(--navy)', fontWeight: 700, margin: '8px 0 10px' }}>
                 Handpicked Discounted Hotels
               </h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: 14, maxWidth: 500, margin: '0 auto' }}>
+              <p style={{ color: 'var(--text-body)', fontSize: 14, maxWidth: 500, margin: '0 auto' }}>
                 Enjoy exclusive rooms discounts in major South India stops. Direct reservations handled by our team.
               </p>
             </div>
@@ -308,7 +313,7 @@ export default function HotelsRestaurantsPage() {
                         position: 'absolute',
                         top: 12,
                         left: 12,
-                        background: 'var(--saffron)',
+                        background: 'var(--navy)',
                         color: 'white',
                         fontWeight: 700,
                         fontSize: 12,
@@ -332,31 +337,31 @@ export default function HotelsRestaurantsPage() {
                         alignItems: 'center',
                         gap: 4
                       }}>
-                        <Star size={11} fill="var(--gold-light)" color="var(--gold-light)" />
+                        <Star size={11} fill="#D4AF37" color="#D4AF37" />
                         <strong>{h.rating} Rating</strong>
                       </div>
                     </div>
 
                     <div style={{ padding: 20, display: 'flex', flexDirection: 'column', flex: 1 }}>
-                      <span style={{ fontSize: 11, color: 'var(--saffron)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                      <span style={{ fontSize: 11, color: isDark ? '#D4AF37' : '#0B2344', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                         {h.location}
                       </span>
-                      <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 18, color: 'var(--deep)', fontWeight: 700, margin: '4px 0 12px' }}>
+                      <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 18, color: 'var(--navy)', fontWeight: 700, margin: '4px 0 12px' }}>
                         {h.name}
                       </h3>
 
                       {/* Hotel Stars */}
                       <div style={{ display: 'flex', gap: 2, marginBottom: 12 }}>
                         {[...Array(h.stars)].map((_, i) => (
-                          <Star key={i} size={13} fill="var(--gold)" color="var(--gold)" />
+                          <Star key={i} size={13} fill="#D4AF37" color="#D4AF37" />
                         ))}
                       </div>
 
                       {/* Benefits list */}
                       <ul style={{ listStyle: 'none', margin: '0 0 20px', padding: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
                         {h.benefits.map(b => (
-                          <li key={b} style={{ fontSize: 12, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
-                            <span style={{ color: 'var(--green)', fontWeight: 900 }}>✓</span> {b}
+                          <li key={b} style={{ fontSize: 12, color: 'var(--text-body)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                            <span style={{ color: '#2E8B57', fontWeight: 900 }}>✓</span> {b}
                           </li>
                         ))}
                       </ul>
@@ -365,24 +370,24 @@ export default function HotelsRestaurantsPage() {
                       <div style={{
                         marginTop: 'auto',
                         paddingTop: 16,
-                        borderTop: '1px solid rgba(232,101,26,0.06)',
+                        borderTop: '1px solid var(--border-light)',
                         display: 'flex',
                         alignItems: 'flex-end',
                         justifyContent: 'space-between'
                       }}>
                         <div>
-                          <span style={{ display: 'block', fontSize: 10, color: 'var(--text-light)', textDecoration: 'line-through' }}>
+                          <span style={{ display: 'block', fontSize: 10, color: 'var(--text-muted)', textDecoration: 'line-through' }}>
                             Online Price: ₹{h.regularPrice.toLocaleString()}
                           </span>
-                          <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+                          <span style={{ fontSize: 11, color: 'var(--text-body)' }}>
                             Rashmi Price:
                           </span>
                         </div>
                         <div style={{ textAlign: 'right' }}>
-                          <strong style={{ fontSize: 20, color: 'var(--saffron)', fontFamily: 'Playfair Display, serif' }}>
+                          <strong style={{ fontSize: 20, color: isDark ? '#D4AF37' : '#0B2344', fontFamily: 'Playfair Display, serif' }}>
                             ₹{h.rashmiPrice.toLocaleString()}
                           </strong>
-                          <span style={{ display: 'block', fontSize: 9, color: 'var(--text-light)' }}>
+                          <span style={{ display: 'block', fontSize: 9, color: 'var(--text-muted)' }}>
                             / night + tax
                           </span>
                         </div>
@@ -398,10 +403,10 @@ export default function HotelsRestaurantsPage() {
           <div style={{ marginBottom: 64 }}>
             <div style={{ textAlign: 'center', marginBottom: 36 }}>
               <span className="section-tag">Partner Restaurants</span>
-              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(24px, 4.5vw, 36px)', color: 'var(--deep)', fontWeight: 700, margin: '8px 0 10px' }}>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(24px, 4.5vw, 36px)', color: 'var(--navy)', fontWeight: 700, margin: '8px 0 10px' }}>
                 Exclusive Dining Vouchers
               </h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: 14, maxWidth: 500, margin: '0 auto' }}>
+              <p style={{ color: 'var(--text-body)', fontSize: 14, maxWidth: 500, margin: '0 auto' }}>
                 Dine at South India\'s legendary culinary hotspots with free treats and flat discounts reserved just for our cab guests.
               </p>
             </div>
@@ -416,8 +421,8 @@ export default function HotelsRestaurantsPage() {
                       position: 'absolute',
                       bottom: 12,
                       left: 12,
-                      background: 'var(--deep)',
-                      color: 'var(--gold-light)',
+                      background: 'var(--navy)',
+                      color: 'var(--gold)',
                       fontWeight: 700,
                       fontSize: 11,
                       padding: '4px 10px',
@@ -429,23 +434,23 @@ export default function HotelsRestaurantsPage() {
 
                   {/* Right: Info */}
                   <div style={{ flex: '1.2 1 280px', padding: 24, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    <span style={{ fontSize: 11, color: 'var(--saffron)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <span style={{ fontSize: 11, color: isDark ? '#D4AF37' : '#0B2344', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       {r.location}
                     </span>
-                    <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 19, color: 'var(--deep)', fontWeight: 700, margin: '4px 0 10px' }}>
+                    <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 19, color: 'var(--navy)', fontWeight: 700, margin: '4px 0 10px' }}>
                       {r.name}
                     </h3>
-                    <p style={{ margin: '0 0 14px', fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                    <p style={{ margin: '0 0 14px', fontSize: 13, color: 'var(--text-body)', lineHeight: 1.5 }}>
                       <strong>Famous For:</strong> {r.famousFor}
                     </p>
 
                     {/* Deal Badge */}
                     <div style={{
-                      background: 'rgba(232,101,26,0.07)',
-                      border: '1px solid rgba(232,101,26,0.15)',
+                      background: 'var(--tag-bg)',
+                      border: '1px solid var(--border-mid)',
                       borderRadius: 10,
                       padding: '10px 14px',
-                      color: 'var(--saffron)',
+                      color: isDark ? '#D4AF37' : '#0B2344',
                       fontWeight: 600,
                       fontSize: 13,
                       display: 'flex',
@@ -468,8 +473,8 @@ export default function HotelsRestaurantsPage() {
               background: 'white',
               borderRadius: 24,
               padding: 'clamp(24px, 5vw, 44px)',
-              boxShadow: '0 8px 32px rgba(26,15,5,0.06)',
-              border: '1px solid rgba(232,101,26,0.08)'
+              boxShadow: 'var(--shadow-navy)',
+              border: '1px solid var(--border-light)'
             }}>
               
               <AnimatePresence mode="wait">
@@ -484,7 +489,7 @@ export default function HotelsRestaurantsPage() {
                       width: 76,
                       height: 76,
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, var(--green), #2d7a4f)',
+                      background: 'linear-gradient(135deg, #2E8B57, #1E5D3A)',
                       color: 'white',
                       display: 'flex',
                       alignItems: 'center',
@@ -495,10 +500,10 @@ export default function HotelsRestaurantsPage() {
                     }}>
                       ✓
                     </div>
-                    <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(22px, 4vw, 30px)', color: 'var(--deep)', fontWeight: 700, marginBottom: 12 }}>
+                    <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(22px, 4vw, 30px)', color: 'var(--navy)', fontWeight: 700, marginBottom: 12 }}>
                       Enquiry Submitted!
                     </h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: 15, maxWidth: 460, margin: '0 auto 28px', lineHeight: 1.7 }}>
+                    <p style={{ color: 'var(--text-body)', fontSize: 15, maxWidth: 460, margin: '0 auto 28px', lineHeight: 1.7 }}>
                       Thank you, <strong>{form.name}</strong>! We have received your booking request for <strong>{form.destination}</strong> on <strong>{form.date}</strong>. Our travel officers will reach out on WhatsApp/Call in 30 minutes to confirm your discounts.
                     </p>
                     <button onClick={() => setSubmitted(false)} className="btn-secondary">
@@ -509,10 +514,10 @@ export default function HotelsRestaurantsPage() {
                   <form onSubmit={handleSubmit} autoComplete="off">
                     <div style={{ textAlign: 'center', marginBottom: 36 }}>
                       <span className="section-tag">Claim Your Discounts</span>
-                      <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(22px, 4vw, 28px)', color: 'var(--deep)', fontWeight: 700, margin: '6px 0 8px' }}>
+                      <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(22px, 4vw, 28px)', color: 'var(--navy)', fontWeight: 700, margin: '6px 0 8px' }}>
                         Book Hotels &amp; Dining
                       </h2>
-                      <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>
+                      <p style={{ color: 'var(--text-body)', fontSize: 14 }}>
                         Fill out the details below. We handle all reservations and pass the discount to you directly.
                       </p>
                     </div>
@@ -531,7 +536,7 @@ export default function HotelsRestaurantsPage() {
                               onChange={e => set('name', e.target.value)}
                               required
                             />
-                            <User size={15} color="var(--text-light)" style={{ position: 'absolute', right: 14, top: 16 }} />
+                            <User size={15} color="var(--text-muted)" style={{ position: 'absolute', right: 14, top: 16 }} />
                           </div>
                         </div>
                         <div>
@@ -545,7 +550,7 @@ export default function HotelsRestaurantsPage() {
                               onChange={e => set('phone', e.target.value)}
                               required
                             />
-                            <Phone size={15} color="var(--text-light)" style={{ position: 'absolute', right: 14, top: 16 }} />
+                            <Phone size={15} color="var(--text-muted)" style={{ position: 'absolute', right: 14, top: 16 }} />
                           </div>
                         </div>
                         <div>
@@ -662,7 +667,7 @@ export default function HotelsRestaurantsPage() {
                         )}
                       </button>
 
-                      <p style={{ textAlign: 'center', fontSize: 11, color: 'var(--text-light)', lineHeight: 1.5, margin: 0 }}>
+                      <p style={{ textAlign: 'center', fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
                         Your details are processed securely. Pay directly at the venue during checkout. Discount applies instantly.
                       </p>
 

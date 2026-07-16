@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,7 +15,7 @@ const Map = dynamic(() => import('@/components/Map'), {
   loading: () => (
     <div style={{
       height: '480px',
-      background: 'rgba(26,15,5,0.03)',
+      background: 'rgba(11,35,68,0.03)',
       borderRadius: 'var(--radius)',
       display: 'flex',
       flexDirection: 'column',
@@ -22,13 +23,13 @@ const Map = dynamic(() => import('@/components/Map'), {
       alignItems: 'center',
       justifyContent: 'center',
       color: 'var(--text-muted)',
-      border: '1px solid rgba(232,101,26,0.1)'
+      border: '1px solid rgba(11,35,68,0.1)'
     }}>
       <div className="spinner" style={{
         width: 36,
         height: 36,
-        border: '3px solid rgba(232,101,26,0.15)',
-        borderTopColor: 'var(--saffron)',
+        border: '3px solid rgba(11,35,68,0.15)',
+        borderTopColor: 'var(--navy)',
         borderRadius: '50%',
         animation: 'spin 1s linear infinite'
       }} />
@@ -145,8 +146,8 @@ const PRESETS = [
 ];
 
 const VEHICLES = [
-  { id: 'sedan', label: 'Sedan (Dzire/Etios)', baseRate: 14, capacity: '4 Pax' },
-  { id: 'suv', label: 'SUV (Innova/Ertiga)', baseRate: 19.6, capacity: '6 Pax' },
+  { id: 'etios', label: 'Toyota Etios (4+1)', baseRate: 14, capacity: '4 Pax' },
+  { id: 'innova', label: 'Toyota Innova (7+1)', baseRate: 19.6, capacity: '7 Pax' },
   { id: 'tempo', label: 'Tempo Traveller', baseRate: 26.6, capacity: '12 Pax' }
 ];
 
@@ -166,8 +167,12 @@ function getRoadDistance(coords1: [number, number], coords2: [number, number]): 
 }
 
 export default function ItineraryPlanner() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDark = mounted && resolvedTheme === 'dark';
   const [selectedStops, setSelectedStops] = useState<Destination[]>([DESTINATIONS[0]]); // Starts with Trichy
-  const [vehicle, setVehicle] = useState('sedan');
+  const [vehicle, setVehicle] = useState('etios');
   const [tripType, setTripType] = useState('round'); // 'one-way' or 'round'
   const [totalDistance, setTotalDistance] = useState(0);
   const [estimatedHours, setEstimatedHours] = useState(0); // Set dynamically from map route callback
@@ -184,7 +189,9 @@ export default function ItineraryPlanner() {
   // Reset calculations if stops are cleared
   useEffect(() => {
     if (selectedStops.length <= 1) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTotalDistance(0);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setEstimatedHours(0);
     }
   }, [selectedStops]);
@@ -249,10 +256,10 @@ export default function ItineraryPlanner() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '90vh', background: 'var(--cream)' }}>
+      <main style={{ minHeight: '90vh', background: '#F8F6F0' }}>
         {/* Banner Hero */}
         <div style={{
-          background: 'linear-gradient(135deg, var(--deep) 0%, var(--deep-2) 100%)',
+          background: 'linear-gradient(135deg, #0B2344 0%, #071523 100%)',
           padding: 'clamp(56px,7vw,90px) 16px',
           textAlign: 'center'
         }}>
@@ -261,7 +268,7 @@ export default function ItineraryPlanner() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <span className="section-tag" style={{ background: 'rgba(232,101,26,0.18)', color: 'var(--gold-light)' }}>
+            <span className="section-tag" style={{ background: 'rgba(212,175,55,0.18)', color: '#D4AF37' }}>
               Interactive Map Planner
             </span>
             <h1 style={{
@@ -274,7 +281,7 @@ export default function ItineraryPlanner() {
               Custom Itinerary Planner
             </h1>
             <p style={{
-              color: 'rgba(253,248,240,0.7)',
+              color: 'rgba(248,246,240,0.7)',
               fontSize: 16,
               maxWidth: 580,
               margin: '0 auto'
@@ -289,8 +296,8 @@ export default function ItineraryPlanner() {
           
           {/* Preset Itineraries Row */}
           <div style={{ marginBottom: 32 }}>
-            <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 18, fontWeight: 700, color: 'var(--deep)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Sparkles size={18} color="var(--saffron)" /> Select a Popular Preset Route:
+            <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 18, fontWeight: 700, color: 'var(--navy)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Sparkles size={18} color="#D4AF37" /> Select a Popular Preset Route:
             </h3>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               {PRESETS.map(p => (
@@ -299,29 +306,29 @@ export default function ItineraryPlanner() {
                   onClick={() => loadPreset(p.stops)}
                   className="preset-btn"
                   style={{
-                    background: 'white',
-                    border: '1px solid rgba(232,101,26,0.12)',
+                    background: 'var(--bg-surface)',
+                    border: '1px solid var(--border-light)',
                     borderRadius: 12,
                     padding: '12px 18px',
                     textAlign: 'left',
                     cursor: 'pointer',
                     transition: 'all 0.25s',
                     flex: '1 1 240px',
-                    boxShadow: '0 2px 8px rgba(26,15,5,0.02)'
+                    boxShadow: '0 2px 8px rgba(7,21,35,0.02)'
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = 'var(--saffron)';
+                    e.currentTarget.style.borderColor = isDark ? '#D4AF37' : 'var(--text-heading)';
                     e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = 'var(--shadow-warm)';
+                    e.currentTarget.style.boxShadow = 'var(--shadow-navy)';
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.borderColor = 'rgba(232,101,26,0.12)';
+                    e.currentTarget.style.borderColor = 'var(--border-light)';
                     e.currentTarget.style.transform = 'none';
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(26,15,5,0.02)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(7,21,35,0.02)';
                   }}
                 >
-                  <strong style={{ display: 'block', color: 'var(--deep)', fontSize: 14 }}>{p.name}</strong>
-                  <span style={{ fontSize: 11, color: 'var(--saffron)', fontWeight: 700 }}>{p.days} Days Recommended</span>
+                  <strong style={{ display: 'block', color: 'var(--navy)', fontSize: 14 }}>{p.name}</strong>
+                  <span style={{ fontSize: 11, color: '#D4AF37', fontWeight: 700 }}>{p.days} Days Recommended</span>
                   <p style={{ margin: '4px 0 0', fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>{p.desc}</p>
                 </button>
               ))}
@@ -335,9 +342,9 @@ export default function ItineraryPlanner() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               
               {/* Route Builder Card */}
-              <div style={{ background: 'white', border: '1px solid rgba(232,101,26,0.08)', borderRadius: 20, padding: 24, boxShadow: '0 4px 24px rgba(26,15,5,0.03)' }}>
+              <div style={{ background: 'var(--bg-surface)', border: '1px solid rgba(11,35,68,0.08)', borderRadius: 20, padding: 24, boxShadow: '0 4px 24px rgba(7,21,35,0.03)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                  <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 20, color: 'var(--deep)', fontWeight: 700, margin: 0 }}>
+                  <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 20, color: 'var(--navy)', fontWeight: 700, margin: 0 }}>
                     1. Trip Timeline
                   </h2>
                   <div style={{ position: 'relative' }}>
@@ -360,18 +367,18 @@ export default function ItineraryPlanner() {
                             position: 'absolute',
                             right: 0,
                             top: 'calc(100% + 8px)',
-                            background: 'white',
-                            border: '1px solid rgba(232,101,26,0.15)',
+                            background: 'var(--bg-surface)',
+                            border: '1px solid var(--border-light)',
                             borderRadius: 12,
                             width: 250,
                             maxHeight: 280,
                             overflowY: 'auto',
-                            boxShadow: 'var(--shadow-deep)',
+                            boxShadow: 'var(--shadow-navy)',
                             zIndex: 100,
                             padding: '6px 0'
                           }}
                         >
-                          <div style={{ padding: '6px 12px', fontSize: 10, fontWeight: 700, color: 'var(--text-light)', letterSpacing: 0.5, borderBottom: '1px solid rgba(232,101,26,0.08)', textTransform: 'uppercase' }}>
+                          <div style={{ padding: '6px 12px', fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', letterSpacing: 0.5, borderBottom: '1px solid rgba(11,35,68,0.08)', textTransform: 'uppercase' }}>
                             Choose Destination
                           </div>
                           {DESTINATIONS.filter(d => !selectedStops.some(s => s.id === d.id)).map(dest => (
@@ -390,14 +397,14 @@ export default function ItineraryPlanner() {
                                 transition: 'background 0.2s',
                                 fontWeight: 500
                               }}
-                              onMouseEnter={e => e.currentTarget.style.background = 'rgba(232,101,26,0.06)'}
+                              onMouseEnter={e => e.currentTarget.style.background = 'var(--nav-link-hover-bg)'}
                               onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                             >
                               {dest.name}
                             </button>
                           ))}
                           {DESTINATIONS.filter(d => !selectedStops.some(s => s.id === d.id)).length === 0 && (
-                            <div style={{ padding: '16px', fontSize: 12, color: 'var(--text-light)', textAlign: 'center' }}>
+                            <div style={{ padding: '16px', fontSize: 12, color: 'var(--text-muted)', textAlign: 'center' }}>
                               All stops added!
                             </div>
                           )}
@@ -492,7 +499,7 @@ export default function ItineraryPlanner() {
                     top: 15,
                     bottom: 15,
                     width: 2,
-                    background: 'repeating-linear-gradient(to bottom, rgba(232,101,26,0.15), rgba(232,101,26,0.15) 6px, transparent 6px, transparent 12px)',
+                    background: 'repeating-linear-gradient(to bottom, var(--border-mid), var(--border-mid) 6px, transparent 6px, transparent 12px)',
                     zIndex: 0
                   }} />
 
@@ -507,8 +514,8 @@ export default function ItineraryPlanner() {
                           display: 'flex',
                           gap: 14,
                           alignItems: 'flex-start',
-                          background: 'rgba(253,248,240,0.3)',
-                          border: '1px solid rgba(232,101,26,0.05)',
+                          background: 'var(--bg-page-alt)',
+                          border: '1px solid var(--border-light)',
                           borderRadius: 14,
                           padding: '12px 14px',
                           position: 'relative',
@@ -520,9 +527,9 @@ export default function ItineraryPlanner() {
                           width: 8,
                           height: 8,
                           borderRadius: '50%',
-                          background: isStart ? 'var(--deep)' : 'var(--saffron)',
-                          border: '3px solid white',
-                          boxShadow: '0 0 0 2px ' + (isStart ? 'var(--deep)' : 'var(--saffron)'),
+                          background: isStart ? 'var(--navy)' : '#D4AF37',
+                          border: '3px solid var(--bg-surface)',
+                          boxShadow: '0 0 0 2px ' + (isStart ? 'var(--navy)' : '#D4AF37'),
                           marginTop: 6,
                           flexShrink: 0
                         }} />
@@ -530,7 +537,7 @@ export default function ItineraryPlanner() {
                         {/* Stop Details */}
                         <div style={{ flex: 1 }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                            <strong style={{ color: 'var(--deep)', fontSize: 14 }}>
+                            <strong style={{ color: 'var(--navy)', fontSize: 14 }}>
                               {isStart ? `Departure: ${stop.name}` : `Stop #${index}: ${stop.name}`}
                             </strong>
                             {/* Controls to Move or Remove Stop */}
@@ -538,7 +545,7 @@ export default function ItineraryPlanner() {
                               {!isStart && index > 1 && (
                                 <button
                                   onClick={() => moveStop(index, 'up')}
-                                  style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-light)', fontSize: 11, padding: 2 }}
+                                  style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 11, padding: 2 }}
                                   title="Move Up"
                                 >
                                   ▲
@@ -547,7 +554,7 @@ export default function ItineraryPlanner() {
                               {!isStart && index < selectedStops.length - 1 && (
                                 <button
                                   onClick={() => moveStop(index, 'down')}
-                                  style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-light)', fontSize: 11, padding: 2 }}
+                                  style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 11, padding: 2 }}
                                   title="Move Down"
                                 >
                                   ▼
@@ -574,7 +581,7 @@ export default function ItineraryPlanner() {
                           {/* Attractions badges */}
                           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
                             {stop.attractions.map(attr => (
-                              <span key={attr} style={{ background: 'white', color: 'var(--text-muted)', border: '1px solid rgba(26,15,5,0.06)', borderRadius: 6, fontSize: 10, padding: '2px 6px' }}>
+                              <span key={attr} style={{ background: 'var(--bg-surface)', color: 'var(--text-muted)', border: '1px solid rgba(7,21,35,0.06)', borderRadius: 6, fontSize: 10, padding: '2px 6px' }}>
                                 {attr}
                               </span>
                             ))}
@@ -589,24 +596,24 @@ export default function ItineraryPlanner() {
                   <div style={{
                     marginTop: 12,
                     padding: '8px 12px',
-                    background: 'rgba(26,15,5,0.02)',
+                    background: 'rgba(7,21,35,0.02)',
                     borderRadius: 10,
-                    border: '1px dashed rgba(26,15,5,0.08)',
+                    border: '1px dashed rgba(7,21,35,0.08)',
                     fontSize: 12,
                     color: 'var(--text-muted)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 8
                   }}>
-                    <Navigation size={13} color="var(--saffron)" />
+                    <Navigation size={13} color={isDark ? "#D4AF37" : "#0B2344"} />
                     <span>Route returns back to <strong>Trichy Base</strong> (Round Trip option active)</span>
                   </div>
                 )}
               </div>
 
               {/* Preferences & Services Card */}
-              <div style={{ background: 'white', border: '1px solid rgba(232,101,26,0.08)', borderRadius: 20, padding: 24, boxShadow: '0 4px 24px rgba(26,15,5,0.03)' }}>
-                <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 20, color: 'var(--deep)', fontWeight: 700, marginBottom: 18, marginTop: 0 }}>
+              <div style={{ background: 'var(--bg-surface)', border: '1px solid rgba(11,35,68,0.08)', borderRadius: 20, padding: 24, boxShadow: '0 4px 24px rgba(7,21,35,0.03)' }}>
+                <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 20, color: 'var(--navy)', fontWeight: 700, marginBottom: 18, marginTop: 0 }}>
                   2. Customize Booking
                 </h2>
 
@@ -620,12 +627,12 @@ export default function ItineraryPlanner() {
                         padding: '11px',
                         borderRadius: 10,
                         border: '2px solid',
-                        borderColor: tripType === 'round' ? 'var(--saffron)' : 'rgba(232,101,26,0.15)',
-                        background: tripType === 'round' ? 'rgba(232,101,26,0.04)' : 'white',
+                        borderColor: tripType === 'round' ? (isDark ? '#D4AF37' : 'var(--text-heading)') : 'var(--border-light)',
+                        background: tripType === 'round' ? 'rgba(11,35,68,0.04)' : 'var(--bg-surface)',
                         fontWeight: 600,
                         fontSize: 13,
                         cursor: 'pointer',
-                        color: tripType === 'round' ? 'var(--saffron)' : 'var(--text-muted)'
+                        color: tripType === 'round' ? (isDark ? '#D4AF37' : 'var(--text-heading)') : 'var(--text-body)'
                       }}
                     >
                       Round Trip (Back to Trichy)
@@ -636,12 +643,12 @@ export default function ItineraryPlanner() {
                         padding: '11px',
                         borderRadius: 10,
                         border: '2px solid',
-                        borderColor: tripType === 'one-way' ? 'var(--saffron)' : 'rgba(232,101,26,0.15)',
-                        background: tripType === 'one-way' ? 'rgba(232,101,26,0.04)' : 'white',
+                        borderColor: tripType === 'one-way' ? (isDark ? '#D4AF37' : 'var(--text-heading)') : 'var(--border-light)',
+                        background: tripType === 'one-way' ? 'rgba(11,35,68,0.04)' : 'var(--bg-surface)',
                         fontWeight: 600,
                         fontSize: 13,
                         cursor: 'pointer',
-                        color: tripType === 'one-way' ? 'var(--saffron)' : 'var(--text-muted)'
+                        color: tripType === 'one-way' ? (isDark ? '#D4AF37' : 'var(--text-heading)') : 'var(--text-body)'
                       }}
                     >
                       One Way Drop
@@ -664,20 +671,20 @@ export default function ItineraryPlanner() {
                           padding: '12px 16px',
                           borderRadius: 12,
                           border: '2px solid',
-                          borderColor: vehicle === v.id ? 'var(--saffron)' : 'rgba(232,101,26,0.1)',
-                          background: vehicle === v.id ? 'rgba(232,101,26,0.04)' : 'white',
+                          borderColor: vehicle === v.id ? (isDark ? '#D4AF37' : '#0B2344') : 'var(--border-light)',
+                          background: vehicle === v.id ? 'rgba(11,35,68,0.04)' : 'var(--bg-surface)',
                           cursor: 'pointer',
                           transition: 'all 0.2s'
                         }}
                       >
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                          <Car size={16} color={vehicle === v.id ? 'var(--saffron)' : 'var(--text-light)'} />
+                          <Car size={16} color={vehicle === v.id ? '#0B2344' : 'var(--text-muted)'} />
                           <div style={{ textAlign: 'left' }}>
-                            <strong style={{ display: 'block', fontSize: 13, color: 'var(--deep)' }}>{v.label}</strong>
-                            <span style={{ fontSize: 11, color: 'var(--text-light)' }}>Capacity: {v.capacity}</span>
+                            <strong style={{ display: 'block', fontSize: 13, color: 'var(--navy)' }}>{v.label}</strong>
+                            <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Capacity: {v.capacity}</span>
                           </div>
                         </div>
-                        <span style={{ fontSize: 13, fontWeight: 700, color: vehicle === v.id ? 'var(--saffron)' : 'var(--text-muted)' }}>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: vehicle === v.id ? (isDark ? '#D4AF37' : '#0B2344') : 'var(--text-body)' }}>
                           ₹{v.baseRate}/km
                         </span>
                       </button>
@@ -686,7 +693,7 @@ export default function ItineraryPlanner() {
                 </div>
 
                 {/* Custom Hotel and Restaurant Addons */}
-                <div style={{ paddingTop: 16, borderTop: '1px solid rgba(232,101,26,0.08)' }}>
+                <div style={{ paddingTop: 16, borderTop: '1px solid rgba(11,35,68,0.08)' }}>
                   <label className="form-label">Cheaper Local Services Add-ons</label>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
@@ -699,9 +706,9 @@ export default function ItineraryPlanner() {
                       cursor: 'pointer',
                       padding: 10,
                       borderRadius: 10,
-                      background: includeHotels ? 'rgba(45,122,79,0.05)' : 'transparent',
+                      background: includeHotels ? 'var(--tag-bg)' : 'transparent',
                       border: '1px solid',
-                      borderColor: includeHotels ? 'rgba(45,122,79,0.15)' : 'transparent',
+                      borderColor: includeHotels ? 'var(--border-mid)' : 'transparent',
                       transition: 'all 0.2s'
                     }}>
                       <input
@@ -711,7 +718,7 @@ export default function ItineraryPlanner() {
                         style={{ marginTop: 4, accentColor: 'var(--green)' }}
                       />
                       <div>
-                        <strong style={{ fontSize: 13, color: 'var(--deep)', display: 'block' }}>
+                        <strong style={{ fontSize: 13, color: 'var(--navy)', display: 'block' }}>
                           Discounted Hotel Bookings
                         </strong>
                         <span style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block', marginTop: 2 }}>
@@ -728,19 +735,19 @@ export default function ItineraryPlanner() {
                       cursor: 'pointer',
                       padding: 10,
                       borderRadius: 10,
-                      background: includeDining ? 'rgba(232,101,26,0.05)' : 'transparent',
+                      background: includeDining ? 'var(--tag-bg)' : 'transparent',
                       border: '1px solid',
-                      borderColor: includeDining ? 'rgba(232,101,26,0.15)' : 'transparent',
+                      borderColor: includeDining ? 'var(--border-mid)' : 'transparent',
                       transition: 'all 0.2s'
                     }}>
                       <input
                         type="checkbox"
                         checked={includeDining}
                         onChange={e => setIncludeDining(e.target.checked)}
-                        style={{ marginTop: 4, accentColor: 'var(--saffron)' }}
+                        style={{ marginTop: 4, accentColor: 'var(--navy)' }}
                       />
                       <div>
-                        <strong style={{ fontSize: 13, color: 'var(--deep)', display: 'block' }}>
+                        <strong style={{ fontSize: 13, color: 'var(--navy)', display: 'block' }}>
                           Discounted Dining Vouchers
                         </strong>
                         <span style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block', marginTop: 2 }}>
@@ -760,7 +767,7 @@ export default function ItineraryPlanner() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24, position: 'sticky', top: 80, height: 'fit-content' }}>
               
               {/* Interactive Map Box */}
-              <div style={{ background: 'white', border: '1px solid rgba(232,101,26,0.08)', borderRadius: 20, padding: 12, boxShadow: '0 4px 24px rgba(26,15,5,0.03)' }}>
+              <div style={{ background: 'var(--bg-surface)', border: '1px solid rgba(11,35,68,0.08)', borderRadius: 20, padding: 12, boxShadow: '0 4px 24px rgba(7,21,35,0.03)' }}>
                 <Map 
                   stops={selectedStops} 
                   tempCoords={tempCoords}
@@ -778,12 +785,12 @@ export default function ItineraryPlanner() {
 
               {/* Estimate & Summary Box */}
               <div style={{
-                background: 'linear-gradient(135deg, var(--deep) 0%, var(--deep-2) 100%)',
+                background: 'linear-gradient(135deg, #0B2344 0%, #071523 100%)',
                 borderRadius: 20,
                 padding: '28px 24px',
                 color: 'white',
-                boxShadow: 'var(--shadow-deep)',
-                border: '1px solid rgba(232,101,26,0.15)',
+                boxShadow: 'var(--shadow-navy)',
+                border: '1px solid var(--border-light)',
                 position: 'relative',
                 overflow: 'hidden'
               }}>
@@ -795,7 +802,7 @@ export default function ItineraryPlanner() {
                   width: '150px',
                   height: '150px',
                   borderRadius: '50%',
-                  background: 'rgba(232,101,26,0.22)',
+                  background: 'rgba(212,175,55,0.22)',
                   filter: 'blur(45px)',
                   pointerEvents: 'none'
                 }} />
@@ -806,34 +813,34 @@ export default function ItineraryPlanner() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
                   <div>
-                    <span style={{ display: 'block', fontSize: 11, color: 'rgba(253,248,240,0.45)', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <span style={{ display: 'block', fontSize: 11, color: 'rgba(248,246,240,0.45)', textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Total Distance
                     </span>
-                    <strong style={{ fontSize: 18, color: 'var(--gold-light)' }}>
+                    <strong style={{ fontSize: 18, color: '#E8C84A' }}>
                       {totalDistance > 0 ? `${totalDistance.toLocaleString()} km` : '—'}
                     </strong>
                   </div>
                   <div>
-                    <span style={{ display: 'block', fontSize: 11, color: 'rgba(253,248,240,0.45)', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <span style={{ display: 'block', fontSize: 11, color: 'rgba(248,246,240,0.45)', textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Travel Time
                     </span>
-                    <strong style={{ fontSize: 18, color: 'var(--gold-light)' }}>
+                    <strong style={{ fontSize: 18, color: '#E8C84A' }}>
                       {totalDistance > 0 ? `~${estimatedHours} Hours` : '—'}
                     </strong>
                   </div>
                   <div>
-                    <span style={{ display: 'block', fontSize: 11, color: 'rgba(253,248,240,0.45)', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <span style={{ display: 'block', fontSize: 11, color: 'rgba(248,246,240,0.45)', textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Recommended Duration
                     </span>
-                    <strong style={{ fontSize: 18, color: 'var(--gold-light)' }}>
+                    <strong style={{ fontSize: 18, color: '#E8C84A' }}>
                       {totalDistance > 0 ? `${recommendedDays} Days` : '—'}
                     </strong>
                   </div>
                   <div>
-                    <span style={{ display: 'block', fontSize: 11, color: 'rgba(253,248,240,0.45)', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <span style={{ display: 'block', fontSize: 11, color: 'rgba(248,246,240,0.45)', textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Stops Selected
                     </span>
-                    <strong style={{ fontSize: 18, color: 'var(--gold-light)' }}>
+                    <strong style={{ fontSize: 18, color: '#E8C84A' }}>
                       {selectedStops.length} Destinations
                     </strong>
                   </div>
@@ -842,19 +849,19 @@ export default function ItineraryPlanner() {
                 {estimatedFare > 0 ? (
                   <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: '16px 18px', marginBottom: 24, border: '1px solid rgba(255,255,255,0.05)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: 13, color: 'rgba(253,248,240,0.7)' }}>
+                      <span style={{ fontSize: 13, color: 'rgba(248,246,240,0.7)' }}>
                         Estimated Cab Fare:
                       </span>
-                      <strong style={{ fontSize: 24, color: 'var(--saffron-light)', fontFamily: 'Playfair Display, serif' }}>
+                      <strong style={{ fontSize: 24, color: '#D4AF37', fontFamily: 'Playfair Display, serif' }}>
                         ₹{estimatedFare.toLocaleString()}*
                       </strong>
                     </div>
-                    <span style={{ display: 'block', fontSize: 10, color: 'rgba(253,248,240,0.4)', marginTop: 4, lineHeight: 1.3 }}>
+                    <span style={{ display: 'block', fontSize: 10, color: 'rgba(248,246,240,0.4)', marginTop: 4, lineHeight: 1.3 }}>
                       *Tolls, parking, and permit fees are additional. Includes driver beta/allowance.
                     </span>
                   </div>
                 ) : (
-                  <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 12, padding: '16px 18px', marginBottom: 24, textAlign: 'center', fontSize: 13, color: 'rgba(253,248,240,0.4)' }}>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 12, padding: '16px 18px', marginBottom: 24, textAlign: 'center', fontSize: 13, color: 'rgba(248,246,240,0.4)' }}>
                     Select destinations to estimate prices
                   </div>
                 )}
@@ -868,8 +875,8 @@ export default function ItineraryPlanner() {
                     fontSize: 15,
                     display: 'flex',
                     justifyContent: 'center',
-                    background: 'linear-gradient(135deg, var(--saffron) 0%, #E8651A 100%)',
-                    boxShadow: '0 4px 18px rgba(232,101,26,0.3)',
+                    background: 'linear-gradient(135deg, #0B2344 0%, #102A4A 100%)',
+                    boxShadow: '0 4px 18px rgba(11,35,68,0.3)',
                     color: 'white',
                     fontWeight: 700
                   }}
@@ -877,8 +884,8 @@ export default function ItineraryPlanner() {
                   Book This Itinerary <ArrowRight size={16} />
                 </Link>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center', marginTop: 14, fontSize: 11, color: 'rgba(253,248,240,0.45)' }}>
-                  <ShieldCheck size={13} color="var(--gold-light)" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center', marginTop: 14, fontSize: 11, color: 'rgba(248,246,240,0.45)' }}>
+                  <ShieldCheck size={13} color="#E8C84A" />
                   <span>No advance payment required. Cancel free anytime.</span>
                 </div>
               </div>

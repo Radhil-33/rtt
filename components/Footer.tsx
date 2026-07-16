@@ -4,13 +4,14 @@ import { Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
 
 const PHONE = '+919790699932';
 const PHONE_DISPLAY = '+91 97906 99932';
-const EMAIL = 'rashmitoursanddtravels@gmail.com';
+const EMAIL = 'info@rashmitours.in';
 const WA_URL = `https://wa.me/${PHONE}`;
 
 const quickLinks = [
   { href: '/', label: 'Home' },
   { href: '/packages', label: 'Tour Packages' },
   { href: '/itinerary', label: 'Itinerary Planner' },
+  { href: '/vehicles', label: 'Our Fleet' },
   { href: '/hotels-restaurants', label: 'Hotels & Dining' },
   { href: '/booking', label: 'Book a Cab' },
   { href: '/contact', label: 'Contact Us' },
@@ -30,20 +31,20 @@ const popularRoutes = [
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer style={{ background: 'var(--deep)', color: 'var(--cream)', marginTop: 0 }}>
+    <footer style={{ background: 'var(--footer-bg)', color: 'var(--footer-text)', marginTop: 0 }}>
       <div className="container" style={{ paddingTop: 56, paddingBottom: 40 }}>
         <div className="footer-grid">
 
           {/* Brand */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
-              <div style={{ width: 46, height: 46, borderRadius: '50%', background: 'linear-gradient(135deg, var(--saffron), var(--gold))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: 'white', fontWeight: 900, fontFamily: 'Playfair Display, serif', flexShrink: 0 }}>R</div>
+              <img src="/Dark Mode Logo.png" alt="R" style={{ width: 46, height: 46, objectFit: 'contain', borderRadius: '50%', flexShrink: 0 }} />
               <div>
                 <div style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: 19, color: 'white' }}>Rashmi Tours</div>
-                <div style={{ fontSize: 10, color: 'var(--gold-light)', fontWeight: 700, letterSpacing: '1.2px', textTransform: 'uppercase' }}>&amp; Travels</div>
+                <div style={{ fontSize: 10, color: '#D4AF37', fontWeight: 700, letterSpacing: '1.2px', textTransform: 'uppercase' }}>&amp; Travels</div>
               </div>
             </div>
-            <p style={{ fontSize: 14, color: 'rgba(253,248,240,0.6)', lineHeight: 1.75, marginBottom: 20 }}>
+            <p style={{ fontSize: 14, color: 'var(--footer-text)', lineHeight: 1.75, marginBottom: 20 }}>
               Your most trusted travel partner in South India. Based in Trichy, we offer safe, comfortable cabs for pilgrimages, hill stations &amp; inter-city travel.
             </p>
             <a href={WA_URL} target="_blank" rel="noopener"
@@ -59,9 +60,9 @@ export default function Footer() {
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
               {quickLinks.map(link => (
                 <li key={link.href}>
-                  <Link href={link.href} style={{ color: 'rgba(253,248,240,0.6)', textDecoration: 'none', fontSize: 14, display: 'flex', alignItems: 'center', gap: 7, transition: 'color 0.2s' }}
-                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--gold-light)'}
-                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(253,248,240,0.6)'}>
+                  <Link href={link.href} style={{ color: 'var(--footer-text)', textDecoration: 'none', fontSize: 14, display: 'flex', alignItems: 'center', gap: 7, transition: 'color 0.2s' }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-link-hover)'}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text)'}>
                     <ArrowRight size={12} /> {link.label}
                   </Link>
                 </li>
@@ -75,9 +76,9 @@ export default function Footer() {
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
               {popularRoutes.map(r => (
                 <li key={r.label}>
-                  <Link href="/booking" style={{ color: 'rgba(253,248,240,0.6)', textDecoration: 'none', fontSize: 14, display: 'flex', alignItems: 'center', gap: 7, transition: 'color 0.2s' }}
-                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--gold-light)'}
-                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(253,248,240,0.6)'}>
+                  <Link href="/booking" style={{ color: 'var(--footer-text)', textDecoration: 'none', fontSize: 14, display: 'flex', alignItems: 'center', gap: 7, transition: 'color 0.2s' }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-link-hover)'}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--footer-text)'}>
                     <ArrowRight size={12} /> {r.label}
                   </Link>
                 </li>
@@ -93,22 +94,22 @@ export default function Footer() {
                 { icon: Phone, label: 'CALL / WHATSAPP', value: PHONE_DISPLAY, href: `tel:${PHONE}` },
                 { icon: Mail, label: 'EMAIL', value: EMAIL, href: `mailto:${EMAIL}` },
               ].map(({ icon: Icon, label, value, href }) => (
-                <a key={href} href={href} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, color: 'rgba(253,248,240,0.8)', textDecoration: 'none', fontSize: 14 }}>
-                  <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(232,101,26,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Icon size={14} style={{ color: 'var(--saffron)' }} />
+                <a key={href} href={href} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, color: 'var(--footer-text)', textDecoration: 'none', fontSize: 14 }}>
+                  <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(212,175,55,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Icon size={14} style={{ color: '#D4AF37' }} />
                   </div>
                   <div>
-                    <div style={{ color: 'rgba(253,248,240,0.4)', fontSize: 10, marginBottom: 2, letterSpacing: '0.5px' }}>{label}</div>
+                    <div style={{ color: 'var(--footer-text-dim)', fontSize: 10, marginBottom: 2, letterSpacing: '0.5px' }}>{label}</div>
                     <div style={{ wordBreak: 'break-word' }}>{value}</div>
                   </div>
                 </a>
               ))}
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 14, color: 'rgba(253,248,240,0.8)' }}>
-                <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(232,101,26,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <MapPin size={14} style={{ color: 'var(--saffron)' }} />
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 14, color: 'var(--footer-text)' }}>
+                <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(212,175,55,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <MapPin size={14} style={{ color: '#D4AF37' }} />
                 </div>
                 <div>
-                  <div style={{ color: 'rgba(253,248,240,0.4)', fontSize: 10, marginBottom: 2, letterSpacing: '0.5px' }}>ADDRESS</div>
+                  <div style={{ color: 'var(--footer-text-dim)', fontSize: 10, marginBottom: 2, letterSpacing: '0.5px' }}>ADDRESS</div>
                   Trichy, Tamil Nadu, India
                 </div>
               </div>
@@ -118,12 +119,12 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', padding: '18px 16px' }}>
+      <div style={{ borderTop: '1px solid var(--border-light)', padding: '18px 16px' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
-          <p style={{ fontSize: 13, color: 'rgba(253,248,240,0.4)' }}>© {year} Rashmi Tours and Travels. All rights reserved.</p>
+          <p style={{ fontSize: 13, color: 'var(--footer-text-dim)' }}>© {year} Rashmi Tours and Travels. All rights reserved.</p>
           <div style={{ display: 'flex', gap: 20 }}>
-            <Link href="/contact" style={{ fontSize: 13, color: 'rgba(253,248,240,0.4)', textDecoration: 'none' }}>Privacy Policy</Link>
-            <Link href="/contact" style={{ fontSize: 13, color: 'rgba(253,248,240,0.4)', textDecoration: 'none' }}>Terms</Link>
+            <Link href="/contact" style={{ fontSize: 13, color: 'var(--footer-text-dim)', textDecoration: 'none' }}>Privacy Policy</Link>
+            <Link href="/contact" style={{ fontSize: 13, color: 'var(--footer-text-dim)', textDecoration: 'none' }}>Terms</Link>
           </div>
         </div>
       </div>

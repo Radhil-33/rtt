@@ -19,7 +19,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (!isAdminLoggedIn) return <>{children}</>;
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#0F0A05' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#071523' }}>
       <AdminSidebar />
       <main className="admin-main" style={{ flex: 1, overflowX: 'hidden', minWidth: 0 }}>
         {children}

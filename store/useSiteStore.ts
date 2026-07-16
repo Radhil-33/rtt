@@ -89,7 +89,7 @@ export const useSiteStore = create<SiteStore>()(
         const coupon = get().coupons.find(c => c.code.toUpperCase() === code.toUpperCase() && c.active);
         if (!coupon) return { valid: false, discount: 0, message: 'Invalid or expired coupon code.' };
         if (amount < coupon.minBooking) return { valid: false, discount: 0, message: `Minimum booking amount is ₹${coupon.minBooking}.` };
-        let discount = coupon.type === 'percentage'
+        const discount = coupon.type === 'percentage'
           ? Math.min((amount * coupon.discount) / 100, coupon.maxDiscount || Infinity)
           : coupon.discount;
         return { valid: true, discount: Math.round(discount), message: coupon.description };
@@ -104,6 +104,18 @@ export const useSiteStore = create<SiteStore>()(
         fareRules: defaultFareRules,
       }),
     }),
-    { name: 'rashmi-tours-store' , version: 2}
+    {
+      name: 'rashmi-tours-store',
+      version: 2,
+      migrate: (_s: unknown) => ({
+        carousel: defaultCarousel,
+        packages: defaultPackages,
+        textBlocks: defaultTextBlocks,
+        coupons: defaultCoupons,
+        testimonials: defaultTestimonials,
+        fareRules: defaultFareRules,
+        isAdminLoggedIn: false
+      })
+    }
   )
 );

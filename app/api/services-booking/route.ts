@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
 
 export async function POST(req: Request) {
   try {
@@ -33,8 +33,8 @@ Submitted via Rashmi Tours Website Services Booking Form
 `;
 
     const response = await resend.emails.send({
-      from: 'Rashmi Tours Website <onboarding@resend.dev>',
-      to: 'rashmitoursanddtravels@gmail.com',
+      from: 'Rashmi Tours Website <bookings@rashmitours.in>',
+      to: 'bookings@rashmitours.in',
       replyTo: body.email || undefined,
       subject: `[Service Booking] ${body.serviceType.toUpperCase()} - ${body.name}`,
       text: emailContent,

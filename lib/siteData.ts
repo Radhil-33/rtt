@@ -136,7 +136,7 @@ export const defaultPackages: Package[] = [
     id: 'p5',
     title: 'Kanyakumari Sunrise Trip',
     description: 'Watch the sun rise from the southernmost tip of India where three seas meet. A spiritual and scenic marvel.',
-    image: 'https://www.karthitravels.com/images/destinations/kanyakumari.jpg',
+    image: 'https://images.unsplash.com/photo-1623766216903-f4b5e5e5c8?w=800&q=80',
     duration: '1 Day',
     price: 3800,
     priceUnit: 'per cab',
@@ -250,9 +250,15 @@ export const defaultFareRules: FareRule[] = [
 ];
 
 export const vehicleTypes = [
-  { id: 'sedan', label: 'Sedan (Dzire/Etios)', multiplier: 1.0, capacity: '4 Passengers' },
-  { id: 'suv', label: 'SUV (Innova/Ertiga)', multiplier: 1.4, capacity: '6 Passengers' },
-  { id: 'tempo', label: 'Tempo Traveller', multiplier: 1.9, capacity: '12 Passengers' },
+  { id: 'etios', label: 'Toyota Etios (4+1)', multiplier: 1.0, capacity: '4 Passengers' },
+  { id: 'innova', label: 'Toyota Innova (7+1)', multiplier: 1.35, capacity: '7 Passengers' },
+  { id: 'innova-crysta', label: 'Innova Crysta (7+1)', multiplier: 1.55, capacity: '7 Passengers' },
+  { id: 'urbania-12', label: 'Urbania Van 12 Seater', multiplier: 2.0, capacity: '12 Passengers' },
+  { id: 'urbania-18', label: 'Urbania Van 18 Seater', multiplier: 2.5, capacity: '18 Passengers' },
+  { id: 'tempo', label: 'Tempo Traveller (12+1)', multiplier: 2.1, capacity: '12 Passengers' },
+  { id: 'coach-18', label: 'Mini Coach 18 Seater', multiplier: 2.8, capacity: '18 Passengers' },
+  { id: 'coach-25', label: 'Mini Coach 25 Seater', multiplier: 3.4, capacity: '25 Passengers' },
+  { id: 'luxury-bus', label: 'Luxury Bus 45 Seater', multiplier: 5.5, capacity: '45 Passengers' },
 ];
 
 export const ADMIN_CREDENTIALS = {

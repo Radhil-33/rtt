@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
 
 export async function POST(req: Request) {
   try {
@@ -14,24 +14,30 @@ Customer Details
 -------------------------
 Name: ${body.name}
 Phone: ${body.phone}
-Email: ${body.email}
+Email: ${body.email || 'N/A'}
 
 Booking Details
 -------------------------
-Destination: ${body.destination}
+Route: ${body.from} → ${body.to}
 Travel Date: ${body.travelDate}
-Number of Travelers: ${body.travelers}
-Package: ${body.packageName}
+Pickup Time: ${body.pickupTime || 'N/A'}
+Trip Type: ${body.tripType === 'round' ? 'Round Trip' : 'One Way'}
+Vehicle Type: ${body.vehicle}
+Passengers: ${body.passengers}
+Estimated Fare: ₹${body.estimatedFare}
 
-Additional Message
+Coupon: ${body.coupon || 'None'}
+Discount: ₹${body.discount || 0}
+
+Additional Notes
 -------------------------
 ${body.message || 'No additional message'}
     `;
 
     const response = await resend.emails.send({
-      from: 'Rashmi Tours Website <onboarding@resend.dev>',
-      to: 'rashmitoursanddtravels@gmail.com',
-      replyTo: body.email,
+      from: 'Rashmi Tours Website <bookings@rashmitours.in>',
+      to: 'bookings@rashmitours.in',
+      replyTo: body.email || undefined,
       subject: `New Booking from ${body.name}`,
       text: message,
     });

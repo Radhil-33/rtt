@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import ThemeProvider from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
   title: {
@@ -40,9 +41,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/Radhil Long.png" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var t = localStorage.getItem('rashmi-theme');
+                if (t) document.documentElement.setAttribute('data-theme', t);
+              } catch(e) {}
+            `,
+          }}
+        />
+        <link rel="icon" href="/Light Mode Logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -57,7 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           description: "Premium cab service and tour packages from Trichy (Tiruchirappalli) across South India.",
           url: "https://rashmitours.in",
           telephone: "+919790699932",
-          email: "rashmitoursanddtravels@gmail.com",
+          email: "info@rashmitours.in",
           address: {
             "@type": "PostalAddress",
             addressLocality: "Tiruchirappalli",
@@ -72,14 +83,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         }) }} />
       </head>
       <body>
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            style: { fontFamily: "'DM Sans', sans-serif", borderRadius: "10px", background: "#1A0F05", color: "#FDF8F0", fontSize: "14px" },
-            success: { iconTheme: { primary: "#E8651A", secondary: "#FDF8F0" } },
-          }}
-        />
-        {children}
+        <ThemeProvider>
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: { fontFamily: "'DM Sans', sans-serif", borderRadius: "10px", background: "#0B2344", color: "#F8F6F0", fontSize: "14px" },
+              success: { iconTheme: { primary: "#D4AF37", secondary: "#0B2344" } },
+            }}
+          />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
