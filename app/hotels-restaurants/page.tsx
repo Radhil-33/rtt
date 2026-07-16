@@ -212,7 +212,7 @@ export default function HotelsRestaurantsPage() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '90vh', background: '#F8F6F0' }}>
+      <main style={{ minHeight: '90vh', background: 'var(--bg-page)' }}>
         {/* Banner Hero */}
         <div style={{
           background: 'linear-gradient(135deg, #0B2344 0%, #071523 100%)',
