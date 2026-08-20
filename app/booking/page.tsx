@@ -44,9 +44,11 @@ function BookingForm() {
   const rule = fareRules.find(r => r.from === form.from && r.to === form.to);
   const veh = vehicleTypes.find(v => v.id === form.vehicle)!;
   let estimatedFare = 0;
-  if (rule && veh) {
-    const base = Math.round((rule.basePrice + rule.pricePerKm * rule.distanceKm) * veh.multiplier);
-    estimatedFare = form.tripType === 'round' ? Math.round(base * 1.85) : base;
+  if (rule && veh && veh.ratePerKm) {
+    const tripDistance = form.tripType === 'round' ? rule.distanceKm * 2 : rule.distanceKm;
+    const days = form.tripType === 'round' ? Math.max(1, Math.ceil(tripDistance / 300)) : 1;
+    const distanceForFare = form.tripType === 'round' ? Math.max(tripDistance, days * 300) : rule.distanceKm;
+    estimatedFare = Math.round(distanceForFare * veh.ratePerKm + days * (veh.driverBeta || 0));
   }
   const finalFare = couponResult?.valid ? estimatedFare - couponResult.discount : estimatedFare;
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }));
@@ -193,7 +195,13 @@ function BookingForm() {
         </div>
 
         {/* Coupon */}
-        {estimatedFare > 0 && (
+        {veh && veh.ratePerKm === 0 && (
+          <div style={{ marginBottom: 28, paddingTop: 24, borderTop: '1px solid var(--border-light)', textAlign: 'center', background: 'var(--tag-bg)', border: '1px solid var(--border-light)', borderRadius: 14, padding: '16px' }}>
+            <span style={{ color: '#D4AF37', fontSize: 16, fontWeight: 700 }}>Pricing on Demand</span>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>No advance payment needed. We will call you to provide a custom quote.</p>
+          </div>
+        )}
+        {estimatedFare > 0 && veh && veh.ratePerKm > 0 && (
           <div style={{ marginBottom: 28, paddingTop: 24, borderTop: '1px solid var(--border-light)' }}>
             <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 17, color: 'var(--text-heading)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
               <Tag size={16} color={isDark ? "#D4AF37" : "#0B2344"} /> Coupon Code

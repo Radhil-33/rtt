@@ -237,28 +237,27 @@ export const defaultTestimonials: Testimonial[] = [
 ];
 
 export const defaultFareRules: FareRule[] = [
-  { from: 'Trichy', to: 'Rameswaram', basePrice: 800, pricePerKm: 14, distanceKm: 165 },
-  { from: 'Trichy', to: 'Kodaikanal', basePrice: 700, pricePerKm: 15, distanceKm: 120 },
-  { from: 'Trichy', to: 'Ooty', basePrice: 900, pricePerKm: 14, distanceKm: 210 },
-  { from: 'Trichy', to: 'Kanyakumari', basePrice: 900, pricePerKm: 14, distanceKm: 245 },
-  { from: 'Trichy', to: 'Chennai', basePrice: 1200, pricePerKm: 13, distanceKm: 460 },
-  { from: 'Trichy', to: 'Munnar', basePrice: 1000, pricePerKm: 15, distanceKm: 190 },
-  { from: 'Trichy', to: 'Tirunelveli', basePrice: 600, pricePerKm: 13, distanceKm: 160 },
-  { from: 'Trichy', to: 'Madurai', basePrice: 600, pricePerKm: 13, distanceKm: 135 },
-  { from: 'Trichy', to: 'Coimbatore', basePrice: 700, pricePerKm: 13, distanceKm: 210 },
-  { from: 'Trichy', to: 'Bangalore', basePrice: 1500, pricePerKm: 13, distanceKm: 470 },
+  { from: 'Trichy', to: 'Rameswaram', basePrice: 800, pricePerKm: 14, distanceKm: 230 },
+  { from: 'Trichy', to: 'Tiruchendur', basePrice: 800, pricePerKm: 14, distanceKm: 310 },
+  { from: 'Trichy', to: 'Kanyakumari', basePrice: 900, pricePerKm: 14, distanceKm: 380 },
+  { from: 'Trichy', to: 'Kumbakonam Temple', basePrice: 600, pricePerKm: 14, distanceKm: 100 },
+  { from: 'Trichy', to: 'Munnar', basePrice: 1000, pricePerKm: 15, distanceKm: 250 },
+  { from: 'Trichy', to: 'Kodaikanal', basePrice: 700, pricePerKm: 15, distanceKm: 200 },
+  { from: 'Trichy', to: 'Chennai', basePrice: 1200, pricePerKm: 13, distanceKm: 330 },
+  { from: 'Trichy', to: 'Coimbatore', basePrice: 700, pricePerKm: 13, distanceKm: 220 },
+  { from: 'Trichy', to: 'Bangalore', basePrice: 1500, pricePerKm: 13, distanceKm: 340 }
 ];
 
 export const vehicleTypes = [
-  { id: 'etios', label: 'Toyota Etios (4+1)', multiplier: 1.0, capacity: '4 Passengers' },
-  { id: 'innova', label: 'Toyota Innova (7+1)', multiplier: 1.35, capacity: '7 Passengers' },
-  { id: 'innova-crysta', label: 'Innova Crysta (7+1)', multiplier: 1.55, capacity: '7 Passengers' },
-  { id: 'urbania-12', label: 'Urbania Van 12 Seater', multiplier: 2.0, capacity: '12 Passengers' },
-  { id: 'urbania-18', label: 'Urbania Van 18 Seater', multiplier: 2.5, capacity: '18 Passengers' },
-  { id: 'tempo', label: 'Tempo Traveller (12+1)', multiplier: 2.1, capacity: '12 Passengers' },
-  { id: 'coach-18', label: 'Mini Coach 18 Seater', multiplier: 2.8, capacity: '18 Passengers' },
-  { id: 'coach-25', label: 'Mini Coach 25 Seater', multiplier: 3.4, capacity: '25 Passengers' },
-  { id: 'luxury-bus', label: 'Luxury Bus 45 Seater', multiplier: 5.5, capacity: '45 Passengers' },
+  { id: 'etios', label: 'Toyota Etios (4+1)', ratePerKm: 13, driverBeta: 400, minKmPerDay: 300, capacity: '4 Passengers' },
+  { id: 'innova', label: 'Toyota Innova (7+1)', ratePerKm: 18, driverBeta: 500, minKmPerDay: 300, capacity: '7 Passengers' },
+  { id: 'innova-crysta', label: 'Innova Crysta (7+1)', ratePerKm: 22, driverBeta: 500, minKmPerDay: 300, capacity: '7 Passengers' },
+  { id: 'tempo-14', label: 'Tempo Traveller 14 Seater', ratePerKm: 24, driverBeta: 600, minKmPerDay: 300, capacity: '14 Passengers' },
+  { id: 'tempo-18', label: 'Tempo Traveller 18 Seater', ratePerKm: 28, driverBeta: 600, minKmPerDay: 300, capacity: '18 Passengers' },
+  { id: 'urbania', label: 'Force Urbania', ratePerKm: 0, driverBeta: 0, minKmPerDay: 300, capacity: '12-18 Passengers', onDemand: true },
+  { id: 'coach-nac', label: 'Mini Coach Non-AC', ratePerKm: 27, driverBeta: 700, minKmPerDay: 300, capacity: '25 Passengers' },
+  { id: 'coach-ac', label: 'Mini Coach AC', ratePerKm: 33, driverBeta: 700, minKmPerDay: 300, capacity: '25 Passengers' },
+  { id: 'luxury-bus', label: 'Luxury Bus 45 Seater', ratePerKm: 0, driverBeta: 0, minKmPerDay: 300, capacity: '45 Passengers', onDemand: true }
 ];
 
 export const ADMIN_CREDENTIALS = {

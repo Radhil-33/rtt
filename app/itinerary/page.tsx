@@ -146,9 +146,15 @@ const PRESETS = [
 ];
 
 const VEHICLES = [
-  { id: 'etios', label: 'Toyota Etios (4+1)', baseRate: 14, capacity: '4 Pax' },
-  { id: 'innova', label: 'Toyota Innova (7+1)', baseRate: 19.6, capacity: '7 Pax' },
-  { id: 'tempo', label: 'Tempo Traveller', baseRate: 26.6, capacity: '12 Pax' }
+  { id: 'etios', label: 'Toyota Etios (4+1)', baseRate: 13, driverBeta: 400, capacity: '4 Pax' },
+  { id: 'innova', label: 'Toyota Innova (7+1)', baseRate: 18, driverBeta: 500, capacity: '7 Pax' },
+  { id: 'crysta', label: 'Innova Crysta (7+1)', baseRate: 22, driverBeta: 500, capacity: '7 Pax' },
+  { id: 'tempo-14', label: 'Tempo Traveller 14s', baseRate: 24, driverBeta: 600, capacity: '14 Pax' },
+  { id: 'tempo-18', label: 'Tempo Traveller 18s', baseRate: 28, driverBeta: 600, capacity: '18 Pax' },
+  { id: 'urbania', label: 'Force Urbania', baseRate: 0, driverBeta: 0, capacity: '12-18 Pax', onDemand: true },
+  { id: 'coach-nac', label: 'Mini Coach Non-AC', baseRate: 27, driverBeta: 700, capacity: '25 Pax' },
+  { id: 'coach-ac', label: 'Mini Coach AC', baseRate: 33, driverBeta: 700, capacity: '25 Pax' },
+  { id: 'luxury-bus', label: 'Luxury Bus', baseRate: 0, driverBeta: 0, capacity: '45 Pax', onDemand: true }
 ];
 
 // Haversine distance calculator between coordinates (multiplied by road winding factor of 1.3)
@@ -236,9 +242,12 @@ export default function ItineraryPlanner() {
 
   // Calculations
   const veh = VEHICLES.find(v => v.id === vehicle) || VEHICLES[0];
-  const basePrice = 800;
-  const estimatedFare = totalDistance > 0 ? Math.round(basePrice + totalDistance * veh.baseRate) : 0;
-  const recommendedDays = totalDistance > 0 ? Math.max(1, Math.ceil(totalDistance / 180)) : 1;
+  const recommendedDays = totalDistance > 0 ? Math.max(1, Math.ceil(totalDistance / 300)) : 1;
+  const distanceForFare = Math.max(totalDistance, recommendedDays * 300);
+  const driverAllowance = recommendedDays * (veh.driverBeta || 0);
+  const estimatedFare = totalDistance > 0 && !veh.onDemand
+    ? Math.round(distanceForFare * veh.baseRate + driverAllowance)
+    : 0;
 
   // Build booking link URL query parameters
   const getBookingLink = () => {
@@ -685,7 +694,7 @@ export default function ItineraryPlanner() {
                           </div>
                         </div>
                         <span style={{ fontSize: 13, fontWeight: 700, color: vehicle === v.id ? (isDark ? '#D4AF37' : '#0B2344') : 'var(--text-body)' }}>
-                          ₹{v.baseRate}/km
+                          {v.onDemand ? 'On Demand' : `₹${v.baseRate}/km`}
                         </span>
                       </button>
                     ))}
@@ -846,20 +855,29 @@ export default function ItineraryPlanner() {
                   </div>
                 </div>
 
-                {estimatedFare > 0 ? (
-                  <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: '16px 18px', marginBottom: 24, border: '1px solid rgba(255,255,255,0.05)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: 13, color: 'rgba(248,246,240,0.7)' }}>
-                        Estimated Cab Fare:
+                {totalDistance > 0 ? (
+                  veh.onDemand ? (
+                    <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: '16px 18px', marginBottom: 24, border: '1px solid rgba(255,255,255,0.05)', textAlign: 'center' }}>
+                      <div style={{ fontSize: 16, color: '#D4AF37', fontWeight: 700, fontFamily: 'Playfair Display, serif' }}>Price on Demand</div>
+                      <span style={{ display: 'block', fontSize: 10, color: 'rgba(248,246,240,0.4)', marginTop: 4 }}>
+                        Contact us via Call or WhatsApp for a custom quote.
                       </span>
-                      <strong style={{ fontSize: 24, color: '#D4AF37', fontFamily: 'Playfair Display, serif' }}>
-                        ₹{estimatedFare.toLocaleString()}*
-                      </strong>
                     </div>
-                    <span style={{ display: 'block', fontSize: 10, color: 'rgba(248,246,240,0.4)', marginTop: 4, lineHeight: 1.3 }}>
-                      *Tolls, parking, and permit fees are additional. Includes driver beta/allowance.
-                    </span>
-                  </div>
+                  ) : (
+                    <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: '16px 18px', marginBottom: 24, border: '1px solid rgba(255,255,255,0.05)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: 13, color: 'rgba(248,246,240,0.7)' }}>
+                          Estimated Cab Fare:
+                        </span>
+                        <strong style={{ fontSize: 24, color: '#D4AF37', fontFamily: 'Playfair Display, serif' }}>
+                          ₹{estimatedFare.toLocaleString()}*
+                        </strong>
+                      </div>
+                      <span style={{ display: 'block', fontSize: 10, color: 'rgba(248,246,240,0.4)', marginTop: 4, lineHeight: 1.3 }}>
+                        *Tolls, parking, and permit fees are additional. Includes driver allowance.
+                      </span>
+                    </div>
+                  )
                 ) : (
                   <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 12, padding: '16px 18px', marginBottom: 24, textAlign: 'center', fontSize: 13, color: 'rgba(248,246,240,0.4)' }}>
                     Select destinations to estimate prices

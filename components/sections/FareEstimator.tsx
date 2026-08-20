@@ -24,13 +24,23 @@ export default function FareEstimator() {
 
   const origins = [...new Set(fareRules.map(r => r.from))];
   const destinations = fareRules.filter(r => r.from === from).map(r => r.to);
+  const veh = vehicleTypes.find(v => v.id === vehicle)!;
 
   const calculate = () => {
     const rule = fareRules.find(r => r.from === from && r.to === to);
     if (!rule) return;
     const veh = vehicleTypes.find(v => v.id === vehicle)!;
-    const base = Math.round((rule.basePrice + rule.pricePerKm * rule.distanceKm) * veh.multiplier);
-    const total = tripType === 'round' ? Math.round(base * 1.85) : base;
+    
+    let base = 0;
+    let total = 0;
+    if (veh.ratePerKm) {
+      const tripDistance = tripType === 'round' ? rule.distanceKm * 2 : rule.distanceKm;
+      const days = tripType === 'round' ? Math.max(1, Math.ceil(tripDistance / 300)) : 1;
+      const distanceForFare = tripType === 'round' ? Math.max(tripDistance, days * 300) : rule.distanceKm;
+      base = Math.round(distanceForFare * veh.ratePerKm + days * (veh.driverBeta || 0));
+      total = base;
+    }
+    
     setEstimate({ base, total, distance: rule.distanceKm });
     setCalculated(true);
     setCouponResult(null);
@@ -107,14 +117,21 @@ export default function FareEstimator() {
                       <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{vehicleTypes.find(v => v.id === vehicle)?.label} · {tripType === 'round' ? 'Round Trip' : 'One Way'}</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontSize: 12, color: 'var(--text-body)', marginBottom: 2 }}>Estimated Fare</div>
-                      <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(26px,5vw,36px)', fontWeight: 700, color: couponResult?.valid ? 'var(--text-muted)' : '#D4AF37', textDecoration: couponResult?.valid ? 'line-through' : 'none', lineHeight: 1 }}>₹{estimate.total.toLocaleString()}</div>
-                      {couponResult?.valid && <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(26px,5vw,36px)', fontWeight: 700, color: '#2E8B57', lineHeight: 1, marginTop: 4 }}>₹{finalPrice.toLocaleString()}</div>}
+                      {veh.ratePerKm === 0 ? (
+                        <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(22px,4vw,28px)', fontWeight: 700, color: '#D4AF37', lineHeight: 1 }}>On Demand</div>
+                      ) : (
+                        <>
+                          <div style={{ fontSize: 12, color: 'var(--text-body)', marginBottom: 2 }}>Estimated Fare</div>
+                          <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(26px,5vw,36px)', fontWeight: 700, color: couponResult?.valid ? 'var(--text-muted)' : '#D4AF37', textDecoration: couponResult?.valid ? 'line-through' : 'none', lineHeight: 1 }}>₹{estimate.total.toLocaleString()}</div>
+                          {couponResult?.valid && <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(26px,5vw,36px)', fontWeight: 700, color: '#2E8B57', lineHeight: 1, marginTop: 4 }}>₹{finalPrice.toLocaleString()}</div>}
+                        </>
+                      )}
                     </div>
                   </div>
 
                   {/* Coupon */}
-                  <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: 16 }}>
+                  {veh.ratePerKm > 0 && (
+                    <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: 16 }}>
                     <div style={{ display: 'flex', gap: 8 }}>
                       <div style={{ flex: 1, position: 'relative' }}>
                         <Tag size={13} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: isDark ? '#D4AF37' : '#0B2344' }} />
@@ -129,6 +146,7 @@ export default function FareEstimator() {
                       </div>
                     )}
                   </div>
+                  )}
 
                   <div style={{ display: 'flex', gap: 10, marginTop: 16, flexWrap: 'wrap' }}>
                     <Link href={`/booking?from=${from}&to=${to}&vehicle=${vehicle}`} className="btn-primary" style={{ flex: '1 1 160px' }}>Book This Ride</Link>

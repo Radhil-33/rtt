@@ -106,7 +106,7 @@ export const useSiteStore = create<SiteStore>()(
     }),
     {
       name: 'rashmi-tours-store',
-      version: 2,
+      version: 3,
       migrate: (_s: unknown) => ({
         carousel: defaultCarousel,
         packages: defaultPackages,

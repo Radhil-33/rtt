@@ -38,7 +38,13 @@ export default function AdminFaresPage() {
   };
 
   const set = (k: keyof FareRule, v: any) => setEditing(e => e ? { ...e, [k]: v } : e);
-  const estimateFare = (r: FareRule, mult = 1) => Math.round((r.basePrice + r.pricePerKm * r.distanceKm) * mult);
+  const estimateFare = (r: FareRule, v: any) => {
+    if (v.onDemand) return 0;
+    const tripDistance = r.distanceKm * 2; // assume round trip for preview comparison
+    const days = Math.max(1, Math.ceil(tripDistance / 300));
+    const distanceForFare = Math.max(tripDistance, days * 300);
+    return Math.round(distanceForFare * (v.ratePerKm || 0) + days * (v.driverBeta || 0));
+  };
 
   return (
     <div style={{ padding: 'clamp(16px,3vw,32px)' }}>
@@ -69,7 +75,7 @@ export default function AdminFaresPage() {
               {vehicleTypes.map(v => (
                 <div key={v.id} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '8px 10px' }}>
                   <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', marginBottom: 3, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{v.id}</div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: '#F5823A' }}>₹{estimateFare(rule, v.multiplier).toLocaleString()}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#F5823A' }}>{v.onDemand ? 'On Demand' : '₹' + estimateFare(rule, v).toLocaleString()}</div>
                 </div>
               ))}
             </div>
@@ -83,11 +89,11 @@ export default function AdminFaresPage() {
 
       {/* Vehicle multipliers */}
       <div style={{ marginTop: 22, background: 'rgba(232,101,26,0.05)', borderRadius: 12, padding: '14px 18px', border: '1px solid rgba(232,101,26,0.1)' }}>
-        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 8, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Vehicle Multipliers</p>
+        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 8, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Vehicle Fares (Outstation)</p>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
           {vehicleTypes.map(v => (
             <span key={v.id} style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>
-              <strong style={{ color: '#F5823A' }}>{v.label}</strong>: ×{v.multiplier} · {v.capacity}
+              <strong style={{ color: '#F5823A' }}>{v.label}</strong>: {v.onDemand ? 'On Demand' : '₹' + v.ratePerKm + '/km (Min 300km/day) + ₹' + v.driverBeta + ' allowance'} · {v.capacity}
             </span>
           ))}
         </div>
@@ -120,7 +126,7 @@ export default function AdminFaresPage() {
                     {vehicleTypes.map(v => (
                       <div key={v.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'rgba(255,255,255,0.62)', marginBottom: 4 }}>
                         <span>{v.label}</span>
-                        <span style={{ color: '#F5823A', fontWeight: 600 }}>₹{Math.round((editing.basePrice + editing.pricePerKm * editing.distanceKm) * v.multiplier).toLocaleString()}</span>
+                        <span style={{ color: '#F5823A', fontWeight: 600 }}>{v.onDemand ? 'On Demand' : '₹' + estimateFare(editing, v).toLocaleString()}</span>
                       </div>
                     ))}
                   </div>
